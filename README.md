@@ -1,6 +1,6 @@
 # SRE-2017
 
-[! [Build Status] (https://travis-ci.org/TimothyLe/SRE2017.svg?branch=master)] (https://travis-ci.org/TimothyLe/SRE2017/builds/194745442)
+[! [Build Status] (https://travis-ci.org/TimothyLe/SRE2017/builds/194745442)] (https://travis-ci.org/TimothyLe/SRE2017/builds/194745442)
 
 ## My custom rendition of SRE code
 Focuses will be on
