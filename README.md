@@ -9,10 +9,10 @@ Focuses will be on
 * Sending text to dash for easier testing
 
 ## Libraries
-'IO_Driver.h'
-'IO_EEPROM.h'
-'APDB.h'
-'IO_UART.h'
+`IO_Driver.h`
+`IO_EEPROM.h`
+`APDB.h`
+`IO_UART.h`
 
 ## Links
 Programming for the HY-TTC50
