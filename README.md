@@ -5,7 +5,7 @@
 ### Build Error Message
 * Git remote add attempt
 **Resolve whenever**
-```
+```git
 $ git push origin master
 To https://github.com/TimothyLe/SRE2017.git
  ! [rejected]        master -> master (fetch first)
