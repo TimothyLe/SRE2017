@@ -68,8 +68,8 @@ void main(void)
         bool ecoSwitch; //initialize these?
         bool rtdSwitch;
         bool tcs;
-        ubyte1 eeprom_store = FALSE; 
-        ubyte1 pos2 = 0x230; 
+        ubyte1 * const eeprom_store = FALSE; 
+        ubyte2 pos2 = 0x230; 
         ubyte2 * const pot_res = 0;
         //Non-volatile memory may produce previous  
         //run's EEPROM values or garbage values                                
@@ -79,16 +79,35 @@ void main(void)
         IO_RTC_StartTime(&timestamp);
         IO_Driver_TaskBegin();
 
-        ecoSwitch_prev = ecoSwitch_now;
+        ecoSwitch = rtdSwitch;
 
-        IO_DI_Get( IO_DI_01, &ecoSwitch_now); //Eco switch
-        IO_DI_Get( IO_DI_00, &tcs); //RTD switch
-        IO_DO_Set( IO_ADC_CUR_01
-                 , ecoSwitch_now); //ground
-        IO_DO_Set( IO_ADC_CUR_00, tcs); //ground
+        IO_DI_Get( IO_DI_01, &ecoSwitch); //Eco switch
+        IO_DI_Get( IO_DI_00, &rtdSwitch); //RTD switch
         IO_ADC_Get( IO_ADC_5V_04
-                  , pot_res
-                  , const &tcs ); //TCS Adjustment Pot
+                  , &pot_res
+                  , &tcs ); //TCS Adjustment Pot
+
+        IO_DO_Set( IO_ADC_CUR_01
+                 , ecoSwitch); //ground
+        IO_DO_Set( IO_ADC_CUR_00, tcs); //ground
+        
+        if(pot_res > pos2){
+            if(ecoSwitch == TRUE && rtdSwitch == FALSE){
+                readEEPROM(3,1, &ecoSwitch);
+                
+            } else if (ecoSwitch == FALSE && rtdSwitch == TRUE){
+                readEEPROM(3,1, &rtdSwitch);
+                
+            }
+        } else {
+            if(ecoSwitch == TRUE && rtdSwitch == FALSE){
+                writeEEPROM(3,1, &ecoSwitch);
+                
+            } else if (ecoSwitch == FALSE && rtdSwitch == TRUE){
+                writeEEPROM(3,1, &rtdSwitch);
+                
+            }
+        }
 
         // if(ecoSwitch_prev == FALSE && ecoSwitch_now == TRUE){
         //     //on-click
