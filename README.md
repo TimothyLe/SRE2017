@@ -2,22 +2,11 @@
 
 [![Build Status] (https://travis-ci.org/TimothyLe/SRE2017.svg?branch=master)] (https://travis-ci.org/TimothyLe/SRE2017)
 
-### Build Error Message
-* Git remote add attempt
-**Resolve whenever**
-```git
-$ git push origin master
-To https://github.com/TimothyLe/SRE2017.git
- ! [rejected]        master -> master (fetch first)
-error: failed to push some refs to 'https://github.com/TimothyLe/SRE2017.git'
-hint: Updates were rejected because the remote contains work that you do
-hint: not have locally. This is usually caused by another repository pushing
-hint: to the same ref. You may want to first integrate the remote changes
-hint: (e.g., 'git pull ...') before pushing again.
-hint: See the 'Note about fast-forwards' in 'git push --help' for details.
-
-```
-
+## Location of written programs
+**In order to find the "true" repo, follow this path:**
+1. Click on the Documents directory 
+2. Navigate to SRE-2017
+3. All used/written programs will be in `tim_stuff`
 
 ## My custom rendition of SRE code
 Focuses will be on
