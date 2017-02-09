@@ -4,9 +4,9 @@
 
 ## Location of written programs
 **In order to find the "true" repo, follow this path:**
-1. Click on the Documents directory 
-2. Navigate to SRE-2017
-3. All used/written programs will be in `tim_stuff`
+1. Click on the Documents directory  
+2. Navigate to SRE-2017  
+3. All used/written programs will be in `tim_stuff`  
 
 ## My custom rendition of SRE code
 Focuses will be on
