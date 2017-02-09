@@ -3,7 +3,7 @@
 [![Build Status] (https://travis-ci.org/TimothyLe/SRE2017.svg?branch=master)] (https://travis-ci.org/TimothyLe/SRE2017)
 
 ## Location of written programs
-**In order to find the "true" repo, follow this path:**
+**In order to find the "true" repo, follow this path:**  
 1. Click on the Documents directory  
 2. Navigate to SRE-2017  
 3. All used/written programs will be in `tim_stuff`  
