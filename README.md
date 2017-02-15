@@ -9,6 +9,10 @@
 3. All used/written programs will be in `tim_stuff`  
 
 ## My custom rendition of SRE code
+**Goals this week**
+* Unit testing for EEPROM (*send POT hex to indices of memory .ihex*)
+* No more if/else
+* No more LED lightswitches or can sending  
 Focuses will be on
 * Read/Write EEPROM testing (__me__)
 * Wheel Speed Sensor Read/Calculate Frequency :white_check_mark:
