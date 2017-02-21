@@ -19,9 +19,9 @@ struct _CanManager {
     //AVLNode* incomingTree;
     //AVLNode* outgoingTree;
 
-
+/*  We don't need serial manager any longer, its outdated
     SerialManager* sm;
-
+*/
     ubyte1 canMessageLimit;
 	
     //These are our four FIFO queues.  All messages should come/go through one of these queues.
@@ -78,13 +78,15 @@ struct _CanMessageNode
 
 CanManager* CanManager_new(ubyte2 can0_busSpeed, ubyte1 can0_read_messageLimit, ubyte1 can0_write_messageLimit
                          , ubyte2 can1_busSpeed, ubyte1 can1_read_messageLimit, ubyte1 can1_write_messageLimit
-                         , ubyte4 defaultSendDelayus, SerialManager* serialMan) //ubyte4 defaultMinSendDelay, ubyte4 defaultMaxSendDelay)
+                         , ubyte4 defaultSendDelayus, /*SerialManager* serialMan*/) //ubyte4 defaultMinSendDelay, ubyte4 defaultMaxSendDelay)
 {
 	CanManager* me = (CanManager*)malloc(sizeof(struct _CanManager));
 
+    /*  Serial is outdated
     me->sm = serialMan;
     SerialManager_send(me->sm, "CanManager's reference to SerialManager was created.\n");
-	
+	*/
+
     //create can history data structure (AVL tree?)
 	//me->incomingTree = NULL;
     //me->outgoingTree = NULL;
@@ -415,7 +417,7 @@ void canOutput_sendSensorMessages(CanManager* me)
 //----------------------------------------------------------------------------
 // 
 //----------------------------------------------------------------------------
-void canOutput_sendDebugMessage(CanManager* me, TorqueEncoder* tps, BrakePressureSensor* bps, MotorController* mcm, WheelSpeeds* wss, SafetyChecker* sc)
+void canOutput_sendDebugMessage(CanManager* me, TorqueEncoder* tps, BrakePressureSensor* bps, MotorController* mcm, WheelSpeeds* wss, SafetyChecker* sc, EEPROM* ep)
 {
     IO_CAN_DATA_FRAME canMessages[me->can0_write_messageLimit];
     ubyte1 errorCount;
@@ -465,7 +467,6 @@ void canOutput_sendDebugMessage(CanManager* me, TorqueEncoder* tps, BrakePressur
     canMessages[canMessageCount - 1].data[byteNum++] = tps->tps1_calibMax >> 8;
     canMessages[canMessageCount - 1].length = byteNum;
 
-    //Brake Pressure Sensor
     canMessageCount++;
     byteNum = 0;
     canMessages[canMessageCount - 1].id_format = IO_CAN_STD_FRAME;
@@ -480,7 +481,6 @@ void canOutput_sendDebugMessage(CanManager* me, TorqueEncoder* tps, BrakePressur
     canMessages[canMessageCount - 1].data[byteNum++] = bps->bps0_calibMax >> 8;
     canMessages[canMessageCount - 1].length = byteNum;
 
-    //WSS call
     canMessageCount++;
     byteNum = 0;
     canMessages[canMessageCount - 1].id_format = IO_CAN_STD_FRAME;
@@ -495,8 +495,6 @@ void canOutput_sendDebugMessage(CanManager* me, TorqueEncoder* tps, BrakePressur
     canMessages[canMessageCount - 1].data[byteNum++] = ((ubyte2)(WheelSpeeds_getWheelSpeed(wss, RR) + 0.5)) >> 8;
     canMessages[canMessageCount - 1].length = byteNum;
 
-    //504
-    //Wheelspeed
     canMessageCount++;
     byteNum = 0;
     canMessages[canMessageCount - 1].id_format = IO_CAN_STD_FRAME;
@@ -589,6 +587,21 @@ void canOutput_sendDebugMessage(CanManager* me, TorqueEncoder* tps, BrakePressur
     canMessages[canMessageCount - 1].data[byteNum++] = (MCM_commands_getInverter(mcm) == ENABLED) ? 1 : 0; //unused/unused/unused/unused unused/unused/Discharge/Inverter Enable
     canMessages[canMessageCount - 1].data[byteNum++] = (ubyte1)MCM_commands_getTorqueLimit(mcm);
     canMessages[canMessageCount - 1].data[byteNum++] = MCM_commands_getTorqueLimit(mcm) >> 8;
+    canMessages[canMessageCount - 1].length = byteNum;
+
+    //EEPROM writing hex settings
+    canMessageCount++;
+    byteNum = 0;
+    canMessages[canMessageCount - 1].id_format = ;
+    canMessages[canMessageCount - 1].id = ;
+    canMessages[canMessageCount - 1].data[byteNum++] = ;
+    canMessages[canMessageCount - 1].data[byteNum++] = ;
+    canMessages[canMessageCount - 1].data[byteNum++] = ;  
+    canMessages[canMessageCount - 1].data[byteNum++] = ;  
+    canMessages[canMessageCount - 1].data[byteNum++] = ;
+    canMessages[canMessageCount - 1].data[byteNum++] = ; \
+    canMessages[canMessageCount - 1].data[byteNum++] = ;
+    canMessages[canMessageCount - 1].data[byteNum++] = ;
     canMessages[canMessageCount - 1].length = byteNum;
     //----------------------------------------------------------------------------
     //Additional sensors
