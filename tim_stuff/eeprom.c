@@ -8,6 +8,7 @@
 #include "IO_EEPROM.h"
 #include "IO_ADC.h"
 #include "IO_PWD.h"
+#include "canmanager.h"
 
 APDB appl_db =
           { 0                      /* ubyte4 versionAPDB        */
@@ -40,6 +41,9 @@ APDB appl_db =
           , 0                      /* ubyte4 headerCRC          */
           };
 
+/*Declarations*/
+void readEP(ubyte2 offset, ubyte2 length, ubyte1 * const data);
+void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * const data);
 
 volatile ubyte4 count = 0;
 ubyte4 timestamp = 0;
@@ -50,10 +54,20 @@ void main(void)
     ubyte1 size, len_tx;
 
     IO_Driver_Init( NULL );
-    IO_EEPROM_Init( NULL ); //added
+    IO_EEPROM_Init(); //added
   
-    //Digital Input Initializations
-    IO_DI_Init( IO_DI_00 ); //RTD switch
+    /**************************************
+    Digital Input/Output Initializations
+    ***************************************/
+    EEPROM* epMan = EEPROMmanager_new(500, 40, 40, 500, 20, 20, 200000);
+    void canOutput_sendDebugMessage(EEPROMManager* me
+                                    , TorqueEncoder* tps
+                                    , BrakePressureSensor* bps
+                                    , MotorController* mcm
+                                    , WheelSpeeds* wss
+                                    , SafetyChecker* sc);
+    IO_DI_Init( IO_DI_00 
+              , IO_DI_PD_10K); //RTD switch
     IO_DI_Init( IO_DI_01
               , IO_DI_PD_10K ); //Eco switch
     IO_ADC_ChannelInit( IO_ADC_5V_04 
@@ -62,15 +76,15 @@ void main(void)
                       , 0
                       , 0
                       , NULL ); //TCS Adjustment POT
-    IO_DO_Init( IO_ADC_CUR_01); //turns ground on/off
-    IO_DO_Init( IO_ADC_CUR_00);  //TCS?
+    IO_DO_Init( IO_ADC_CUR_01); //grounds eco
+    IO_DO_Init( IO_ADC_CUR_03); //grounds rtd
 
         bool ecoSwitch; //initialize these?
         bool rtdSwitch;
-        bool tcs;
+        bool const tcs;
         ubyte1 * const eeprom_store = FALSE; 
-        ubyte2 pos2 = 0x230; 
-        ubyte2 * const pot_res = 0;
+        ubyte2 * const pos2 = 0x230;
+        ubyte2 * const pot_res; //took out equals 0
         //Non-volatile memory may produce previous  
         //run's EEPROM values or garbage values                                
 
@@ -84,31 +98,48 @@ void main(void)
         IO_DI_Get( IO_DI_01, &ecoSwitch); //Eco switch
         IO_DI_Get( IO_DI_00, &rtdSwitch); //RTD switch
         IO_ADC_Get( IO_ADC_5V_04
-                  , &pot_res
+                  , &pot_res //points to different type
                   , &tcs ); //TCS Adjustment Pot
 
-        IO_DO_Set( IO_ADC_CUR_01
-                 , ecoSwitch); //ground
-        IO_DO_Set( IO_ADC_CUR_00, tcs); //ground
-        
-        if(pot_res > pos2){
+        /***************************************
+        Checks if TCS POT is adjusted before or
+        after the 2nd position and either the Eco switch
+        or the RTD switch light will read/write to EEPROM
+        and a light up will indicate so
+        ***************************************/
+        //unit test
+        writeEP(3,1, &ecoSwitch);
+        readEP(3,1, &ecoSwitch);
+        /*!!!
+        Change if statement, add messages directly to EEPROM hex 
+        spaces etc
+        */
+
+        /***************************************
+          Conditional Statements
+          **************************************
+        if(*pot_res > *pos2){
             if(ecoSwitch == TRUE && rtdSwitch == FALSE){
-                readEEPROM(3,1, &ecoSwitch);
-                
+                readEP(3,1, &ecoSwitch);
+                IO_DO_Set( IO_ADC_CUR_01
+                 , ecoSwitch); //grounds eco
             } else if (ecoSwitch == FALSE && rtdSwitch == TRUE){
-                readEEPROM(3,1, &rtdSwitch);
-                
+                readEP(3,1, &rtdSwitch);
+                 IO_DO_Set( IO_ADC_CUR_03, rtdSwitch); //grounds rtd
             }
         } else {
             if(ecoSwitch == TRUE && rtdSwitch == FALSE){
-                writeEEPROM(3,1, &ecoSwitch);
-                
+                writeEP(3,1, &ecoSwitch);
+                IO_DO_Set( IO_ADC_CUR_01
+                 , ecoSwitch); //grounds eco
             } else if (ecoSwitch == FALSE && rtdSwitch == TRUE){
-                writeEEPROM(3,1, &rtdSwitch);
-                
+                writeEP(3,1, &rtdSwitch);
+                 IO_DO_Set( IO_ADC_CUR_03, rtdSwitch); //grounds rtd
             }
         }
+        ***************************************/
 
+        /* Old Code */
         // if(ecoSwitch_prev == FALSE && ecoSwitch_now == TRUE){
         //     //on-click
         //     writeEEPROM(1,1, &ecoSwitch_now); 
@@ -131,11 +162,12 @@ void main(void)
     }
 }
 
-void readEEPROM(ubyte2 offset, ubyte2 length, ubyte1 * const data)
-{
+
+
+/*Definitions*/
+void readEP(ubyte2 offset, ubyte2 length, ubyte1 * const data){
     //check if the EEPROM is busy
-    if(IO_EEPROM_GetStatus() == IO_E_OK)
-    {
+    if(IO_EEPROM_GetStatus() == IO_E_OK){
         //not busy starts reading
         IO_EEPROM_Read(offset, length, &data);
     }
@@ -144,11 +176,9 @@ void readEEPROM(ubyte2 offset, ubyte2 length, ubyte1 * const data)
     //to return IO_E_OK 
 }
 
-void writeEEPROM(ubyte2 offset, ubyte2 length, ubyte1 * const data)
-{
+void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * const data){
      //check if the EEPROM is busy
-    if(IO_EEPROM_GetStatus() == IO_E_OK)
-    {
+    if(IO_EEPROM_GetStatus() == IO_E_OK){
         //not busy starts reading
         IO_EEPROM_Write(offset, length, &data);
     }
@@ -156,5 +186,4 @@ void writeEEPROM(ubyte2 offset, ubyte2 length, ubyte1 * const data)
     //needs IO_EEPROM_GetStatus 
     //to return IO_E_OK 
 }
-
 
