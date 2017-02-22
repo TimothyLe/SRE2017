@@ -110,9 +110,11 @@ void main(void)
         or the RTD switch light will read/write to EEPROM
         and a light up will indicate so
         ***************************************/
+
         //unit test
-        writeEP(3,1, &ecoSwitch);
-        readEP(3,1, &ecoSwitch);
+        writeEP(3,1, &eeprom_store);
+        readEP(3,1, &eeprom_store);
+
         /*!!!
         Change if statement, add messages directly to EEPROM hex 
         spaces etc
