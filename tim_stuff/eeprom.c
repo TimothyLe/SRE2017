@@ -42,8 +42,8 @@ APDB appl_db =
           };
 
 /*Declarations*/
-void readEP(ubyte2 offset, ubyte2 length, ubyte1 * const data);
-void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * const data);
+void readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
+void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data);
 
 volatile ubyte4 count = 0;
 ubyte4 timestamp = 0;
@@ -51,7 +51,6 @@ ubyte4 timestamp = 0;
 void main(void)
 {
     ubyte1 data[128] = {0};
-    ubyte1 size, len_tx;
 
     IO_Driver_Init( NULL );
     IO_EEPROM_Init(); //added
@@ -82,21 +81,29 @@ void main(void)
     IO_DO_Init( IO_ADC_CUR_01); //grounds eco
     IO_DO_Init( IO_ADC_CUR_03); //grounds rtd
 
-        bool ecoSwitch; //initialize these?
-        bool rtdSwitch;
-        bool const tcs;
-        ubyte1 * const eeprom_store = FALSE; 
-        ubyte2 * const pos2 = 0x230;
-        ubyte2 * const pot_res; //took out equals 0
+        bool ecoSwitch = TRUE; //initialize these?
+        bool rtdSwitch = FALSE;
+        /****eeprom test****/
+        ubyte2 eOffset = 0x00;
+        ubyte2 eLength = 20;
+        ubyte1 eTest[20] = "Char"; //array is fine
+        /********************/
+        bool tcs;
+        //ubyte1 eeprom_store; 
+        ubyte2 pos2 = 0x230;
+        ubyte2 pot_res; //took out equals 0
         //Non-volatile memory may produce previous  
         //run's EEPROM values or garbage values                                
 
+        //unit test (maybe write a char 8-bits)
+        writeEP(eOffset,eLength, &eTest);
+        //readEP(eOffset,eLength, eTest);
     while (1)
     {
         IO_RTC_StartTime(&timestamp);
         IO_Driver_TaskBegin();
 
-        ecoSwitch = rtdSwitch;
+        //ecoSwitch = rtdSwitch;
 
         IO_DI_Get( IO_DI_01, &ecoSwitch); //Eco switch
         IO_DI_Get( IO_DI_00, &rtdSwitch); //RTD switch
@@ -110,10 +117,6 @@ void main(void)
         or the RTD switch light will read/write to EEPROM
         and a light up will indicate so
         ***************************************/
-
-        //unit test
-        writeEP(3,1, &eeprom_store);
-        readEP(3,1, &eeprom_store);
 
         /*!!!
         Change if statement, add messages directly to EEPROM hex 
@@ -165,13 +168,13 @@ void main(void)
         {
         }
     }
-    IO_EEPROM_DeInit(); //Needs to be called to reinitialize EEPROM
+    //IO_EEPROM_DeInit(); //Needs to be called to reinitialize EEPROM
 }
 
 
 
 /*Definitions*/
-void readEP(ubyte2 offset, ubyte2 length, ubyte1 * const data){
+void readEP(ubyte2 offset, ubyte2 length, ubyte1 data){
     //check if the EEPROM is busy
     if(IO_EEPROM_GetStatus() == IO_E_OK){
         //not busy starts reading
@@ -182,11 +185,11 @@ void readEP(ubyte2 offset, ubyte2 length, ubyte1 * const data){
     //to return IO_E_OK 
 }
 
-void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * const data){
+void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data){
      //check if the EEPROM is busy
     if(IO_EEPROM_GetStatus() == IO_E_OK){
         //not busy starts reading
-        IO_EEPROM_Write(offset, length, &data);
+        IO_EEPROM_Write(offset, length, data);
     }
     //data is busy not available
     //needs IO_EEPROM_GetStatus 
