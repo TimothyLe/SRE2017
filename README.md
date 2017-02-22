@@ -1,34 +1,34 @@
-# SRE-2017
+  # SRE-2017
 
 [![Build Status] (https://travis-ci.org/TimothyLe/SRE2017.svg?branch=master)] (https://travis-ci.org/TimothyLe/SRE2017)
 
 ## Things of Interest
 **Ignore the master and documents directories, they were added by Git Bash**  
-1. EEPROM, can manager, and the car's main revisions located in *tim's stuff*
-2. Errors and warnings screenshots found in *Errors_Warnings* 
-3. All the readings from EEPROM can be found in *eeprom_reads* 
+1. EEPROM, can manager, and the car's main revisions located in *tim's stuff*  
+2. Errors and warnings screenshots found in *Errors_Warnings*   
+3. All the readings from EEPROM can be found in *eeprom_reads*   
 
-## My custom rendition of SRE code
-**Goals this week**
-* Configure EEPROM write function (pointers/arrays)
-* Clear memory addresses (0)
-* Figure out meaning of HEX values (garbage values?)
+## My custom rendition of SRE code  
+**Goals this week**  
+* Configure EEPROM write function (pointers/arrays)  
+* Clear memory addresses (0)  
+* Figure out meaning of HEX values (garbage values?)  
 
 **Completed**
-* Basic EEPROM outline (data structures, declarations, definitions, etc) :white_check_mark:
-* DIO test phase 1 (*outcome not as expected*) :white_check_mark:
-* Unit testing for EEPROM (*successfully wrote to EEPROM*) :white_check_mark:
+* Basic EEPROM outline (data structures, declarations, definitions, etc) :white_check_mark:  
+* DIO test phase 1 (*outcome not as expected*) :white_check_mark:  
+* Unit testing for EEPROM (*successfully wrote to EEPROM*) :white_check_mark:  
 
 ### Casual.pm Tasks
-* Read/Write EEPROM testing (__me__)
-* Wheel Speed Sensor Read/Calculate Frequency :white_check_mark:
-* Sending text to dash for easier testing (__maybe__)
-* Water Pump Testing (__further revision__)
-* Rotary encoder input
-* BMS Linduinos (2026C, etc.)
-* Regen :white_check_mark:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Multiplier (Red Light) :white_check_mark:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Torque shuts down after 1 error (e.g. low voltage)
+* Read/Write EEPROM testing (__me__)  
+* Wheel Speed Sensor Read/Calculate Frequency :white_check_mark:  
+* Sending text to dash for easier testing (__maybe__)  
+* Water Pump Testing (__further revision__)  
+* Rotary encoder input   
+* BMS Linduinos (2026C, etc.)   
+* Regen :white_check_mark:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Multiplier (Red Light) :white_check_mark:  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Torque shuts down after 1 error (e.g. low voltage)  
 
 ### TCS POT Ranges
 ![POT ranges](https://github.com/TimothyLe/SRE2017/blob/master/tim_stuff/potranges.JPG)
