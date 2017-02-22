@@ -8,7 +8,7 @@
 #include "IO_EEPROM.h"
 #include "IO_ADC.h"
 #include "IO_PWD.h"
-#include "canmanager.h"
+//#include "canmanager.h"
 
 APDB appl_db =
           { 0                      /* ubyte4 versionAPDB        */
@@ -59,6 +59,7 @@ void main(void)
     /**************************************
     Digital Input/Output Initializations
     ***************************************/
+    /*
     EEPROM* epMan = EEPROMmanager_new(500, 40, 40, 500, 20, 20, 200000);
     void canOutput_sendDebugMessage(EEPROMManager* me
                                     , TorqueEncoder* tps
@@ -66,6 +67,8 @@ void main(void)
                                     , MotorController* mcm
                                     , WheelSpeeds* wss
                                     , SafetyChecker* sc);
+    */
+
     IO_DI_Init( IO_DI_00 
               , IO_DI_PD_10K); //RTD switch
     IO_DI_Init( IO_DI_01
@@ -160,6 +163,7 @@ void main(void)
         {
         }
     }
+    IO_EEPROM_DeInit(); //Needs to be called to reinitialize EEPROM
 }
 
 
