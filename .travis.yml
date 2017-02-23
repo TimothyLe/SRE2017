@@ -12,3 +12,6 @@ script: scons
 compiler:
   - clang
   - gcc
+  
+notifications:
+  email: false
