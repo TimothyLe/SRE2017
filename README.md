@@ -43,7 +43,21 @@
 |`IO_RTC.h`   |  Real time clock                                                                              |
 |`IO_ADC`     |  Analog to Digital Converter channel inits and gets for analog pins                           |
 |`IO_DIO.h`   |  Digital input and output for controlling LEDs and switching them on/off                      |
-|`IO_PWD.h`   |  Pulse Width Demodulation with timer inputs to measure frequency and/or pulse-width           |
+|`IO_PWD.h`   |  Pulse Width Demodulation with timer inputs to measure frequency and/or pulse-width           |  
+
+### Making a push request
+Open up a Git Bash, cmder, or etc and type the following commands.  
+```
+git clone https://github.com/TimothyLe/SRE2017.git [Your local directory]  
+git add . [or any single files you like]  
+git commit -m "Your message"  
+git remote add origin https://github.com/TimothyLe/SRE2017.git  
+git remote -v  
+git pull origin master  
+git push origin master  
+log [optional]  
+```
+Shortly, the request should arrive here.   
 
 ## Links
 [Programming for the HY-TTC50](http://1drv.ms/1NQUppu)
