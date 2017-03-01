@@ -12,9 +12,9 @@
 **Goals this week**  
 * Configure EEPROM write function (pointers/arrays)  
 * Clear memory addresses (0 or F)  
-nbsp;nbsp;nbsp;nbsp;nbsp;nbsp; • Figure out other 'devices' in the Intel Hex file 15
-nbsp;nbsp;nbsp;nbsp;nbsp;nbsp; • Set memory addresses to default value (F)
-nbsp;nbsp;nbsp;nbsp;nbsp;nbsp; • Overwriting already present memory
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • Figure out other 'devices' in the Intel Hex file 15  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • Set memory addresses to default value (F)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • Overwriting already present memory  
 * Figure out meaning of HEX values (garbage values?)  
 
 **Completed**
