@@ -10,6 +10,7 @@
 
 ## My custom rendition of SRE code  
 **Goals this week**  
+* __Rusty's EEPROM Architecture__
 * AVL Tree (*binary search for copies*)
 * Write EEPROM header and implementation files
 * Edit canManager to send EEPROM messages    
