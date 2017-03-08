@@ -10,17 +10,15 @@
 
 ## My custom rendition of SRE code  
 **Goals this week**  
-* Configure EEPROM write function (pointers/arrays)  
-* Clear memory addresses (0 or F)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • Figure out other 'devices' in the Intel Hex file 15  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • Set memory addresses to default value (F)  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • Overwriting already present memory  
-* Figure out meaning of HEX values (garbage values?)  
+* AVL Tree (*binary search for copies*)
+* Write EEPROM header and implementation files
+* Edit canManager to send EEPROM messages    
 
 **Completed**
 * Basic EEPROM outline (data structures, declarations, definitions, etc) :white_check_mark:  
 * DIO test phase 1 (*outcome not as expected*) :white_check_mark:  
 * Unit testing for EEPROM (*successfully wrote to EEPROM*) :white_check_mark:  
+* EEPROM Research :white_check_mark:    
 
 ### Casual.pm Tasks
 * Read/Write EEPROM testing (__me__)  
@@ -32,9 +30,6 @@
 * Regen :white_check_mark:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Multiplier (Red Light) :white_check_mark:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Torque shuts down after 1 error (e.g. low voltage)  
-
-### TCS POT Ranges
-![POT ranges](https://github.com/TimothyLe/SRE2017/blob/master/tim_stuff/potranges.JPG)
 
 ## Libraries
 | Name | Includes | 
@@ -68,3 +63,5 @@ Shortly, the request should arrive here.
 [VCU Pinout](https://1drv.ms/x/s!Avhc248Pj7v5gt4A6qt_feUsrY_taA) *Incorrect*
 
 [Updated Pinout w/ Ranges](https://app.box.com/s/b72z2jhthd8sobolhyxe6k7jv8ms0adg)
+
+### For information, consult the wiki
