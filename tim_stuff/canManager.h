@@ -9,6 +9,7 @@
 #include "bms.h"
 #include "wheelSpeeds.h"
 #include "safety.h"
+#include "eeprom.h"
 
 typedef enum { CAN0_HIPRI, CAN1_LOPRI } CanChannel;
 //CAN0: 48 messages per handle (48 read, 48 write)
