@@ -1,4 +1,3 @@
-
 #include <stdlib.h> //malloc
 
 #include "IO_Driver.h" 
@@ -13,7 +12,7 @@
 #include "safety.h"
 #include "wheelSpeeds.h"
 #include "serial.h"
-
+#include "eeprom.h"
 
 struct _CanManager {
     //AVLNode* incomingTree;
