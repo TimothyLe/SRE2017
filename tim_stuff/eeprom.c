@@ -41,10 +41,6 @@ APDB appl_db =
           , 0                      /* ubyte4 headerCRC          */
           };
 
-/*Declarations*/
-void readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
-void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data);
-
 volatile ubyte4 count = 0;
 ubyte4 timestamp = 0;
 
@@ -87,17 +83,22 @@ void main(void)
         ubyte2 eOffset = 0x00;
         ubyte2 eLength = 20;
         ubyte1 eTest[20] = "Char"; //array is fine
+          // ubyte1 * eTest = "Char";
         /********************/
         bool tcs;
         //ubyte1 eeprom_store; 
         ubyte2 pos2 = 0x230;
         ubyte2 pot_res; //took out equals 0
-        //Non-volatile memory may produce previous  
-        //run's EEPROM values or garbage values                                
+        // Non-volatile memory may produce previous  
+        // Runs EEPROM values or garbage values                                
 
-        //unit test (maybe write a char 8-bits)
+        // Unit test (maybe write a char 8-bits)
         writeEP(eOffset,eLength, &eTest);
         //readEP(eOffset,eLength, eTest);
+          
+          // Dynamic memory
+          // eTest = malloc(strlen(eTest)+1);
+          // free(eTest);
     while (1)
     {
         IO_RTC_StartTime(&timestamp);
