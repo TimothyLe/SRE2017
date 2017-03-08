@@ -5,6 +5,7 @@
 #ifndef AVLTREE_H
 #define AVLTREE_H
 
+#include <stdio.h>
 #include "IO_Driver.h"
 #include "IO_EEPROM.h"
 #include "IO_CAN.h"
