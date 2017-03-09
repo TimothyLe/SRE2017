@@ -22,7 +22,7 @@
  **************************************************************************/
 #ifndef _EEPROM_H
 #define _EEPROM_H
-
+#include "IO_EEPROM.h"
 #include "IO_Driver.h"
 
 /*
