@@ -11,6 +11,8 @@
 ## My custom rendition of SRE code  
 **Goals this week**  
 * __Rusty's EEPROM Architecture__
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • Doxygen (Javadoc)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • Cmake
 * AVL Tree (*binary search for copies*)
 * Write EEPROM header and implementation files
 * Edit canManager to send EEPROM messages    
