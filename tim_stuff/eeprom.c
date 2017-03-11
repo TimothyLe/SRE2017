@@ -47,24 +47,6 @@ bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
 {
 
 }
-// Writes to EEPROM
-void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data){
-    //checks if the EEPROM is busy
-
-    if(IO_EEPROM_GetStatus() == IO_E_OK){
-
-        //not busy starts reading
-
-        IO_EEPROM_Write(offset, length, data);
-
-    }
-
-    //data is busy not available
-
-    //needs IO_EEPROM_GetStatus 
-
-    //to return IO_E_OK 
-}
 
 //---------------------------------------------------------------
 // Accessors
@@ -75,24 +57,6 @@ void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data){
 bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* value)
 {
 
-}
-// Reads to EEPROM
-void readEP(ubyte2 offset, ubyte2 length, ubyte1 data){
-    //checks if the EEPROM is busy
-
-    if(IO_EEPROM_GetStatus() == IO_E_OK){
-
-        //not busy starts reading
-
-        IO_EEPROM_Read(offset, length, &data);
-
-    }
-
-    //data is busy not available
-
-    //needs IO_EEPROM_GetStatus 
-
-    //to return IO_E_OK 
 }
 
 //---------------------------------------------------------------
@@ -134,12 +98,40 @@ LOCAL ? readInitialValues(???)
 
 }
 
-LOCAL read(? ? ? )
-{
-    IO_EEPROM_Read()
+// Writes to EEPROM
+LOCAL void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data){
+    //checks if the EEPROM is busy
+
+    if(IO_EEPROM_GetStatus() == IO_E_OK){
+
+        //not busy starts reading
+
+        IO_EEPROM_Write(offset, length, data);
+
+    }
+
+    //data is busy not available
+
+    //needs IO_EEPROM_GetStatus 
+
+    //to return IO_E_OK 
 }
 
-LOCAL write(? ? ? )
-{
+// Reads to EEPROM
+LOCAL void readEP(ubyte2 offset, ubyte2 length, ubyte1 data){
+    //checks if the EEPROM is busy
 
+    if(IO_EEPROM_GetStatus() == IO_E_OK){
+
+        //not busy starts reading
+
+        IO_EEPROM_Read(offset, length, &data);
+
+    }
+
+    //data is busy not available
+
+    //needs IO_EEPROM_GetStatus 
+
+    //to return IO_E_OK 
 }
