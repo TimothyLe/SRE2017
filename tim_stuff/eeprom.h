@@ -106,9 +106,11 @@ bool EEPROMManager_initialized(EEPROMManager* me);
 
 /**************************************************************
  *
- * @brief
+ * @brief Reads or writes data to EEPROM in single byte
  *
- * @param
+ * @param[in]	offset	The index(location) of the EEPROM hex address
+ * @param[in]	length	The amount of indexes to read from or write over
+ * @param[out]	data 	The data from the EEPROM stored bytes
  *
  **************************************************************/
 void readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
