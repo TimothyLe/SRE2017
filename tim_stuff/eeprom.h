@@ -1,6 +1,8 @@
 /**********************************************************************//**
  * @file eeprom.h
  *
+ * @author Rusty and Timothy
+ *
  * @brief VCU functions for reading/writing EEPROM
  *
  *      The EEPROM manager allows VCU code to function at any main loop speed
@@ -111,6 +113,13 @@ bool EEPROMManager_initialized(EEPROMManager* me);
  * @param[in]	offset	The index(location) of the EEPROM hex address
  * @param[in]	length	The amount of indexes to read from or write over
  * @param[out]	data 	The data from the EEPROM stored bytes
+ *
+ * \return IO_ErrorType
+ * \retval IO_E_OK                  everything fine / no changes needed
+ * \retval IO_E_BUSY                EEPROM module is still busy
+ * \retval IO_E_EEPROM_RANGE        invalid address offset or range
+ * \retval IO_E_NULL_POINTER        a null pointer has been passed
+ * \retval IO_E_CHANNEL_NOT_CONFIGURED the module is not initialized
  *
  **************************************************************/
 void readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
