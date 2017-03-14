@@ -41,22 +41,32 @@ EEPROMManager* EEPROMManager_new()
 // Mutators
 //---------------------------------------------------------------
 /**  @ingroup Mutators
-* @brief Specific description
+* @brief Sets the desired EEPROM values
 */
 bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* value)
 {
-
+    if(writeEP){
+        me -> value;
+    data_desired = *value;
+        return true;
+    }
+    return false;
 }
 
 //---------------------------------------------------------------
 // Accessors
 //---------------------------------------------------------------
 /**  @ingroup Accessors
-* @brief Specific description
+* @brief Gets the actual EEPROM values
 */
 bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* value)
 {
-
+    if(readEP){
+        me -> value;
+        *value = *data_actual;
+        return true;
+    }
+    return false;
 }
 
 //---------------------------------------------------------------
@@ -64,7 +74,9 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
 //---------------------------------------------------------------
 IO_ErrorType EEPROMManager_sync(EEPROMManager* me)
 {
-    //
+    // if(data_actual!=data_desired){
+    //     data_actual = data_desired;
+    // }
 }
 
 
@@ -90,12 +102,14 @@ LOCAL bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes)
 }
 
 //Reads EEPROM and stores data in data_actual.  Waits until read is complete.
-LOCAL ? readInitialValues(???)
+LOCAL void readInitialValues(ubyte* data)  //might be void since we aren't modifying anything
 {
     //Read eeprom
     //Loop until status == ok
-    me->status = EEPROM_op_idle;
-
+    do{
+        me->status = EEPROM_op_idle;
+    } while(EEPROMManager_getStatus!=IO_E_OK);
+    *data_actual = *data;
 }
 
 // Writes to EEPROM
