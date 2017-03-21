@@ -10,10 +10,27 @@
 
 ## My custom rendition of SRE code  
 **Goals this week**  
-* __Rusty's EEPROM Architecture__
-* AVL Tree (*binary search for copies*)
-* Write EEPROM header and implementation files
-* Edit canManager to send EEPROM messages    
+* __Rusty's EEPROM Architecture__   
+P:
+Included EEPROM functions previously written
+Helper functions
+Accessors
+Mutators
+Shifting EEPROM messages (float, ubyte, signed byte)
+UML Diagrams ☺
+Displays interaction between the EEPROM, manager, AVL tree (if implemented) 
+I:  
+Pushed to personal Github branch SRE2017 (eManager)
+Push to SRE3 EEPROM branch 
+G:
+Eeprom.c Special function sync
+Doxygen eeprom.h
+Assign data types to EEPROM typedefs
+Manage the static variables and functions
+AVL Tree for binary search (maybe)  
+* AVL Tree (*binary search for copies*)  
+* Write EEPROM header and implementation files  
+* Edit canManager to send EEPROM messages     
 
 **Completed**
 * Basic EEPROM outline (data structures, declarations, definitions, etc) :white_check_mark:  
