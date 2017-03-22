@@ -38,7 +38,7 @@ AVL Tree for binary search (maybe)
 * Unit testing for EEPROM (*successfully wrote to EEPROM*) :white_check_mark:  
 * EEPROM Research :white_check_mark:    
 
-### Casual.pm Tasks
+## Casual.pm Tasks
 * Read/Write EEPROM testing (__me__)  
 * Wheel Speed Sensor Read/Calculate Frequency :white_check_mark:  
 * Sending text to dash for easier testing (__maybe__)  
@@ -49,17 +49,9 @@ AVL Tree for binary search (maybe)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Multiplier (Red Light) :white_check_mark:  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Torque shuts down after 1 error (e.g. low voltage)  
 
-## Libraries
-| Name | Includes | 
-| ---- | -------- |
-|`IO_Driver.h`|  Basic SPI driver functions from the VCU                                                      |
-|`IO_EEPROM.h`|  Read/Write EEPROM along with check EE status                                                 |
-|`APDB.h`     |  Defines the application database which is used by the boot loader to determine if app starts |
-|`IO_UART.h`  |  Reads in serial numbers and other serial things                                              |
-|`IO_RTC.h`   |  Real time clock                                                                              |
-|`IO_ADC`     |  Analog to Digital Converter channel inits and gets for analog pins                           |
-|`IO_DIO.h`   |  Digital input and output for controlling LEDs and switching them on/off                      |
-|`IO_PWD.h`   |  Pulse Width Demodulation with timer inputs to measure frequency and/or pulse-width           |  
+### SRE Wiki
+For more information on certain components of the code or more clarity on topics, consult my wiki for more insight on certain topics and potential frequently asked questions after finishing this readme:   
+https://github.com/TimothyLe/SRE2017/wiki
 
 ### Making a push request
 Open up a Git Bash, cmder, or etc and type the following commands.  
@@ -81,5 +73,3 @@ Shortly, the request should arrive here.
 [VCU Pinout](https://1drv.ms/x/s!Avhc248Pj7v5gt4A6qt_feUsrY_taA) *Incorrect*
 
 [Updated Pinout w/ Ranges](https://app.box.com/s/b72z2jhthd8sobolhyxe6k7jv8ms0adg)
-
-### For information, consult the wiki
