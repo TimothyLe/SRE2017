@@ -1,6 +1,6 @@
 # SRE-2017
 
-[![Build Status] (https://travis-ci.org/TimothyLe/SRE2017.svg?branch=master)](https://travis-ci.org/TimothyLe/SRE2017)
+[![Build Status](https://travis-ci.org/TimothyLe/SRE2017.svg?branch=master)](https://travis-ci.org/TimothyLe/SRE2017)
 
 ## Things of Interest
 **Ignore the master and documents directories, they were added by Git Bash**  
