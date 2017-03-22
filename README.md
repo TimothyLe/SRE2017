@@ -11,15 +11,15 @@
 ## My custom rendition of SRE code  
 **Goals this week**  
 * __Rusty's EEPROM Architecture__   
-&nbsp;&nbsp;&nbsp; •Sync special function 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •I wrote a prototype in comment form (guaranteed not gonna work)
-&nbsp;&nbsp;&nbsp; •Static variables need to be managed properly
-&nbsp;&nbsp;&nbsp; •Need to assign data types to structs
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •eepromOperation
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •eepromValue
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •eepromManager
-&nbsp;&nbsp;&nbsp; •Little and Big endian shifting
-* AVL Tree (*binary search for copies*)  
+&nbsp;&nbsp;&nbsp; •Sync special function   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •I wrote a prototype in comment form (guaranteed not gonna work)  
+&nbsp;&nbsp;&nbsp; •Static variables need to be managed properly   
+&nbsp;&nbsp;&nbsp; •Need to assign data types to structs   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •eepromOperation   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •eepromValue  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; •eepromManager   
+&nbsp;&nbsp;&nbsp; •Little and Big endian shifting   
+* AVL Tree (*binary search for copies*)    
 * Write EEPROM header and implementation files  
 * Edit canManager to send EEPROM messages     
 
