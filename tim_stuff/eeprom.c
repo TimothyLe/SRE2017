@@ -2,7 +2,17 @@
 #include "IO_EEPROM.h"
 #include "eeprom.h"
 
-#define LOCAL static
+/***************************************************************
+ 
+ The static keyword allows for a value to be preserved in between 
+ invocations
+ 
+ "LOCAL is just the variable name"
+ -Rusty
+
+ ***************************************************************/
+
+#define LOCAL static 
 
 LOCAL bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes);
 LOCAL ? readInitialValues(?);
