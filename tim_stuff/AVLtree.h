@@ -27,4 +27,15 @@ typedef struct{
 	tree * right;
 } * tree;
 
+typedef struct{
+	ubyte1 infoLeft;
+	ubyte1 infoRight;
+	void shiftRight();
+	void shiftLeft();
+	void shiftLeftRight();
+	void shiftLeftLeft();
+	void shiftRightLeft();
+	void shiftRightRight();
+}AVL;
+
 #endif //AVLTREE_H
