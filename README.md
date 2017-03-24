@@ -59,6 +59,8 @@ log [optional]
 Shortly, the request should arrive here.   
 
 ## Links
+[EEPROM Addresses](https://app.box.com/s/nbz92djxusbby6u214ghj4r6kfeen3ia)
+
 [Programming for the HY-TTC50](http://1drv.ms/1NQUppu)
 
 [VCU Pinout](https://1drv.ms/x/s!Avhc248Pj7v5gt4A6qt_feUsrY_taA) *Incorrect*
