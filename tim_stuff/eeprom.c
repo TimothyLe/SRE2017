@@ -24,7 +24,7 @@ LOCAL ? readInitialValues(?);
 * @brief 
 *
 * @param[in]   value       Which EEPROM value we want the address/length of
-* @param[out]  address     The EEPROM address of the desired value
+* @param[out]  address     The EEPROM address of the desired (software) value
 * @param[out]  bytes       The length (number of bytes) of the value
 * @return      Whether or not the address/length were successfully found.
 */
@@ -36,8 +36,8 @@ EEPROMManager* EEPROMManager_new()
     EEPROMManager* me = (EEPROMManager*)malloc(sizeof(struct _EEPROMManager));
 
     //Allocate memory for EEPROM data (2x)
-    me->data_actual = (ubyte1*)malloc(sizeof(ubyte1) * me->size);
-    me->data_desired = (ubyte1*)malloc(sizeof(ubyte1) * me->size);
+    me->data_hardware = (ubyte1*)malloc(sizeof(ubyte1) * me->size);
+    me->data_software = (ubyte1*)malloc(sizeof(ubyte1) * me->size);
 
     me->status = EEPROM_op_initialize;
 
@@ -51,13 +51,13 @@ EEPROMManager* EEPROMManager_new()
 // Mutators
 //---------------------------------------------------------------
 /**  @ingroup Mutators
-* @brief Sets the desired EEPROM values
+* @brief Sets the desired (software) EEPROM values
 */
 bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* value)
 {
     if(writeEP){
         me -> value;
-    data_desired = *value;
+        data_hardware = *value;
         return true;
     }
     return false;
@@ -67,13 +67,13 @@ bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
 // Accessors
 //---------------------------------------------------------------
 /**  @ingroup Accessors
-* @brief Gets the actual EEPROM values
+* @brief Gets the actual hardware EEPROM values
 */
 bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* value)
 {
     if(readEP){
         me -> value;
-        *value = *data_actual;
+        *value = *data_hardware;
         return true;
     }
     return false;
@@ -84,9 +84,11 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
 //---------------------------------------------------------------
 IO_ErrorType EEPROMManager_sync(EEPROMManager* me)
 {
-    // if(data_actual!=data_desired){
-    //     data_actual = data_desired;
+    // while(!endOfEEPROM){
+    // if(data_hardware!=data_software){
+    //     data_hardware = data_software;
     // }
+    //}
 }
 
 
@@ -97,7 +99,7 @@ IO_ErrorType EEPROMManager_sync(EEPROMManager* me)
  * @brief Returns the address and length of any variable in the eepromValue enum
  *
  * @param[in]   value       Which EEPROM value we want the address/length of
- * @param[out]  address     The EEPROM address of the desired value
+ * @param[out]  address     The EEPROM address of the desired (software) value
  * @param[out]  bytes       The length (number of bytes) of the value
  * @return      Whether or not the address/length were successfully found.
  */
@@ -111,7 +113,7 @@ LOCAL bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes)
     return success;
 }
 
-//Reads EEPROM and stores data in data_actual.  Waits until read is complete.
+//Reads EEPROM and stores data in data_hardware.  Waits until read is complete.
 LOCAL void readInitialValues(ubyte* data)  //might be void since we aren't modifying anything
 {
     //Read eeprom
@@ -119,7 +121,7 @@ LOCAL void readInitialValues(ubyte* data)  //might be void since we aren't modif
     do{
         me->status = EEPROM_op_idle;
     } while(EEPROMManager_getStatus!=IO_E_OK);
-    *data_actual = *data;
+    *data_hardware = *data;
 }
 
 // Writes to EEPROM

@@ -1,8 +1,6 @@
 /**********************************************************************//**
  * @file eeprom.h
  *
- * @author Rusty and Timothy
- *
  * @brief VCU functions for reading/writing EEPROM
  *
  *      The EEPROM manager allows VCU code to function at any main loop speed
@@ -69,8 +67,8 @@ typedef enum
 typedef struct _EEPROMManager
 {
     ubyte2 size;            //!< Size of EEPROM actually used by our software
-    ubyte1* data_desired;   //!< "Desired" EEPROM values.  Pointer to array of bytes.
-    ubyte1* data_actual;    //!< "Actual" (confirmed) EEPROM values.  Pointer to array of bytes.
+    ubyte1* data_software;   //!< "Desired" EEPROM values.  Pointer to array of bytes.
+    ubyte1* data_hardware;    //!< "Actual" (confirmed) EEPROM values.  Pointer to array of bytes.
 
     eepromOperation status; //!< The current operation being performed by EEPROM
 }
