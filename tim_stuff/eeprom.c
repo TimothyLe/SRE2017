@@ -15,7 +15,7 @@
 #define LOCAL static 
 
 LOCAL bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes);
-LOCAL ? readInitialValues(?);
+LOCAL eepromOperation readInitialValues(EEPROM_op_initialize); //eeprom initial values code?
 
 //---------------------------------------------------------------
 // Constructor
