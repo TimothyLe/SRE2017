@@ -6,9 +6,9 @@
  *      The EEPROM manager allows VCU code to function at any main loop speed
  *      without needing to be concerned for EEPROM read/write delays.
  *
- *      This works by keeping two copies of EEPROM in memory, "desired" and "actual"
+ *      This works by keeping two copies of EEPROM in memory, "software" and "hardware"
  *      in the form of ubyte1 arrays.  VCU software interactions will directly
- *      access the "desired" copy, called the cache.  EEPROMManager keeps track
+ *      access the "software" copy, called the cache.  EEPROMManager keeps track
  *      of what values are actually in hardware (known after the initial read),
  *      and will sync() the changes when the hardware is available.
  *
@@ -47,7 +47,9 @@ typedef enum
     , EEPROM_val_regen_minimumSpeedKPH
     , EEPROM_val_regen_SpeedRampStart
 
-    //Faults, warnings
+    //! Faults and warnings can be found in the second enum
+    //, EEPROM_val_faults
+    //, EEPROM_val_warnings
 } eepromValue;
 
 
@@ -64,18 +66,17 @@ typedef enum
     , EEPROM_op_fault       //!< An error occured.  EEPROM will not be used until car is restarted
 } eepromOperation;
 
-typedef struct _EEPROMManager
+typedef struct _EEPROMManager /*!< struct identifier */
 {
     ubyte2 size;            //!< Size of EEPROM actually used by our software
     ubyte1* data_software;   //!< "Desired" EEPROM values.  Pointer to array of bytes.
     ubyte1* data_hardware;    //!< "Actual" (confirmed) EEPROM values.  Pointer to array of bytes.
 
     eepromOperation status; //!< The current operation being performed by EEPROM
-}
-EEPROMManager;
+}EEPROMManager;
 
-//
-EEPROMManager* EEPROMManager_new();  //Constructor
+//! Constructor
+EEPROMManager* EEPROMManager_new();  
 
 
 /**********************************************************************//**
@@ -106,7 +107,13 @@ bool EEPROMManager_initialized(EEPROMManager* me);
 
 /**************************************************************
  *
- * @brief Reads or writes data to EEPROM in single byte
+ * @brief Reads or writes data to EEPROM in single byte. 
+ *
+ *      These private functions are intended to help other special 
+ *      functions with insertion or deletion into the addresses
+ *      of the EEPROM. 
+ *
+ *      They can be called multiple times per iteration. 
  *
  * @param[in]	offset	The index(location) of the EEPROM hex address
  * @param[in]	length	The amount of indexes to read from or write over
@@ -120,10 +127,12 @@ bool EEPROMManager_initialized(EEPROMManager* me);
  * \retval IO_E_CHANNEL_NOT_CONFIGURED the module is not initialized
  *
  **************************************************************/
-void readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
+bool readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
 
-void writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data);
+bool writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data);
 
+// bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes);
+// void readInitialValues(ubyte1* data); 
 
 /** \defgroup Accessors Different function for each datatype to get a locally stored EEPROM value.
 * \brief Gets value from the locally cached copy of EEPROM.
