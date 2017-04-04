@@ -140,6 +140,7 @@ bool writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data);
 * @param[in]    parameter   Which value to be read from EEPROM cache
 * @param[out]   value       The value from EEPROM will be returned here
 * \retval Whether the value was successfully read or not (in the cache).
+* \retval The size of the data (1 byte, 2 byte, 4 byte, or 8 byte->should be no larger).
 * \{
 */
 bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* value);
@@ -159,6 +160,7 @@ bool EEPROMManager_get_bool(EEPROMManager* me, eepromValue parameter, bool* valu
 * @param[in]    parameter   Which variable to be edited in EEPROM cache
 * @param[in]    value       What to change the variable to
 * \retval Whether the value was successfully changed or not (in the cache).
+* \retval The size of the data (1 byte, 2 byte, 4 byte, or 8 byte->should be no larger).
 * @{
 */
 bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1 value);
