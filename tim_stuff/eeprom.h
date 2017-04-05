@@ -46,7 +46,8 @@ typedef enum
     , EEPROM_val_regen_percentBPSForMaxRegen
     , EEPROM_val_regen_minimumSpeedKPH
     , EEPROM_val_regen_SpeedRampStart
-
+    //, EEPROM_val_regen_throttlePedal
+    
     //! Faults and warnings can be found in the second enum
     //, EEPROM_val_faults
     //, EEPROM_val_warnings
