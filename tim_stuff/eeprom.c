@@ -66,6 +66,22 @@ bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
     }
     return false; /*!< Mutation failed */
     }
+    //! Switch cases for checking the size of hardware data
+    switch (sizeof(ubyte1)){
+        /*!< Keeps decreasing the passing data until it reaches optimal size */
+        case size8: //! Biggest size
+
+        break;
+        case size4:
+        break;
+        case size2:
+        break;
+        case size1: //! Smallest size
+        break;
+        default: //! Not a good sign if it gets here
+        data_hardware >> 8;
+        break;
+    }
 }
 
 //---------------------------------------------------------------
@@ -96,6 +112,8 @@ IO_ErrorType EEPROMManager_sync(EEPROMManager* me)
 {
     do{
         if(data_hardware!=data_software){ /*!< Checks if it is already equivalent */
+        writeEP();  /*!< Physically write to hardware */
+        //! Check if hardware is operating, EEPROM will lag car so push EEPROMoperations after
         *data_hardware = *data_software; /*!< Sets the hardware to the cache data */
     }
     }while(EEPROMManager_getStatus!=IO_E_OK);
@@ -108,6 +126,8 @@ eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
 
 bool EEPROMManager_initialized(EEPROMManager* me){
     //left empty
+    return false;
+
 }
 
 //---------------------------------------------------------------
@@ -132,14 +152,14 @@ LOCAL bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes)
 }
 
 //Reads EEPROM and stores data in data_hardware.  Waits until read is complete.
-LOCAL void readInitialValues(ubyte1* data)  //might be void since we aren't modifying anything
+LOCAL void readInitialValues(ubyte1* data)  //->might be void since we aren't modifying anything
 {
     //Read eeprom
     //Loop until status == ok
     do{
         me->status = EEPROM_op_idle;
     } while(EEPROMManager_getStatus!=IO_E_OK);
-    data_hardware = data; //shallow copy
+    *data_hardware = *data; //->shallow copy
 }
 
 //! Writes to EEPROM
