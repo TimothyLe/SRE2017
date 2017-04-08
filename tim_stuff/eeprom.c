@@ -191,3 +191,37 @@ bool readEP(ubyte2 offset, ubyte2 length, ubyte1 data){
     /*!< It needs IO_EEPROM_GetStatus */
     /*!< to return IO_E_OK. */ 
 }
+
+/*
+*
+*/
+//! Big Endian shifting prototype
+// EEPROM_shifter bigE = byte8;
+// switch(bigE){
+//     case byte8:
+//     if(sizeof(ubyte8)){
+//         ubyte8 >> 4;
+//     }
+//     bigE = byte4;
+//     break;
+//     case byte4:
+//     if(sizeof(ubyte4)){
+//         ubyte4 >> 2;
+//     }
+//     bigE = byte2;
+//     break;
+//     case byte2:
+//     if(sizeof(ubyte2)){
+//         ubyte8 >> 1;
+//     }
+//     bigE = byte1;
+//     break;
+//     case byte1:
+//     if(sizeof(ubyte1)){
+//         exit(1);
+//     }
+//     break;
+//     default:
+//     EEPROMManager_getStatus(me->status);
+//     break;
+// }
