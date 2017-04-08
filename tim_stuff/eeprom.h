@@ -1,3 +1,4 @@
+
 /**********************************************************************//**
  * @file eeprom.h
  *
@@ -67,6 +68,20 @@ typedef enum
     , EEPROM_op_fault       //!< An error occured.  EEPROM will not be used until car is restarted
 } eepromOperation;
 
+/*
+*   @brief  the stages for performing a big endian shift on the 
+*           set_ubyte and get_byte helper functions
+*
+*   @parameter
+*   @retval
+*/
+typedef enum _EEPROM_shifter{
+    byte1
+    , byte2
+    , byte4
+    , byte8
+} EEPROM_shifter;
+
 typedef struct _EEPROMManager /*!< struct identifier */
 {
     ubyte2 size;            //!< Size of EEPROM actually used by our software
@@ -116,9 +131,9 @@ bool EEPROMManager_initialized(EEPROMManager* me);
  *
  *      They can be called multiple times per iteration. 
  *
- * @param[in]	offset	The index(location) of the EEPROM hex address
- * @param[in]	length	The amount of indexes to read from or write over
- * @param[out]	data 	The data from the EEPROM stored bytes
+ * @param[in]   offset  The index(location) of the EEPROM hex address
+ * @param[in]   length  The amount of indexes to read from or write over
+ * @param[out]  data    The data from the EEPROM stored bytes
  *
  * \return IO_ErrorType
  * \retval IO_E_OK                  everything fine / no changes needed
