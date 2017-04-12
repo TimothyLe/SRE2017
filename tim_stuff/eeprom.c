@@ -59,15 +59,15 @@ bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
     ubyte2* address; /*!< Created for getAddress param */
     if(getAddress(parameter, address, value)){ /*!< Checks if the address can be found */
         if(writeEP){ /*!< Checks if the EEPROM has been written to */
-        for(int i = 0; i< me->size; i++){
+    for(int i = 0; i< me->size; i++){
             value[i] = data_hardware[i]; /*!< Performs a deep copy */
-        }
+    }
         return true; /*!< Mutation was successful */
-    }
+}
     return false; /*!< Mutation failed */
-    }
+}
     //! Switch cases for checking the size of hardware data
-    switch (sizeof(ubyte1)){
+switch (sizeof(ubyte1)){
         /*!< Keeps decreasing the passing data until it reaches optimal size */
         case size8: //! Biggest size
 
@@ -96,27 +96,36 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
     ubyte2* address; /*!< Created for getAddress param */
     if(getAddress(parameter, address, value)){ /*!< Checks if the address can be found */
         if(readEP){ /*!< Checks if the EEPROM has been read */
-        for(int i = 0; i< me->size; i++){
+    for(int i = 0; i< me->size; i++){
             value[i] = data_hardware[i]; /*!< Performs a deep copy */
-        }
+    }
         return true; /*!< Access was successful */
-    }
+}
     return false; /*!< Access failed */
-    }
+}
 }
 
 //---------------------------------------------------------------
 // Special Functions
 //---------------------------------------------------------------
-IO_ErrorType EEPROMManager_sync(EEPROMManager* me)
+IO_ErrorType EEPROMManager_sync(EEPROMManager* me, ubyte2 offset)
 {
+    /*
+    ubyte2 size;            //!< Size of EEPROM actually used by our software
+    ubyte1* data_software;   //!< "Desired" EEPROM values.  Pointer to array of bytes.
+    ubyte1* data_hardware;    //!< "Actual" (confirmed) EEPROM values.  Pointer to array of bytes.
+
+    eepromOperation status; //!< The current operation being performed by EEPROM
+
+    */
     do{
-        if(data_hardware!=data_software){ /*!< Checks if it is already equivalent */
-        writeEP();  /*!< Physically write to hardware */
+        if(me->data_hardware!=me->data_software){ /*!< Checks if it is already equivalent */
+        writeEP(offset, me->size, me->data_software);  /*!< Physically write to hardware */
         //! Check if hardware is operating, EEPROM will lag car so push EEPROMoperations after
-        *data_hardware = *data_software; /*!< Sets the hardware to the cache data */
+        
+        //!me.data_hardware = me.data_software; /*!< Previous prototype */
     }
-    }while(EEPROMManager_getStatus!=IO_E_OK);
+}while(EEPROMManager_getStatus!=IO_E_OK);
 }
 
 eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
@@ -192,36 +201,34 @@ bool readEP(ubyte2 offset, ubyte2 length, ubyte1 data){
     /*!< to return IO_E_OK. */ 
 }
 
-/*
-*
-*/
 //! Big Endian shifting prototype
-// EEPROM_shifter bigE = byte8;
-// switch(bigE){
-//     case byte8:
-//     if(sizeof(ubyte8)){
-//         ubyte8 >> 4;
-//     }
-//     bigE = byte4;
-//     break;
-//     case byte4:
-//     if(sizeof(ubyte4)){
-//         ubyte4 >> 2;
-//     }
-//     bigE = byte2;
-//     break;
-//     case byte2:
-//     if(sizeof(ubyte2)){
-//         ubyte8 >> 1;
-//     }
-//     bigE = byte1;
-//     break;
-//     case byte1:
-//     if(sizeof(ubyte1)){
-//         exit(1);
-//     }
-//     break;
-//     default:
-//     EEPROMManager_getStatus(me->status);
-//     break;
-// }
+void EEPROM_shifter(EEPROMManager* me, EEPROM_endianShift* me){
+    switch(bigE){
+        case byte8:
+        if(sizeof(ubyte8)){
+            ubyte8 >> 4;
+        }
+        bigE = byte4;
+        break;
+        case byte4:
+        if(sizeof(ubyte4)){
+            ubyte4 >> 2;
+        }
+        bigE = byte2;
+        break;
+        case byte2:
+        if(sizeof(ubyte2)){
+            ubyte8 >> 1;
+        }
+        bigE = byte1;
+        break;
+        case byte1:
+        if(sizeof(ubyte1)){
+            exit(1);
+        }
+        break;
+        default:
+        EEPROMManager_getStatus(me->status);
+        break;
+    }
+}
