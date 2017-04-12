@@ -71,17 +71,22 @@ typedef enum
 /*
 *   @brief  the stages for performing a big endian shift on the 
 *           set_ubyte and get_byte helper functions
-*
-*   @parameter
-*   @retval
 */
-typedef enum _EEPROM_shifter{
+typedef enum _EEPROM_endianShift{
     byte1
     , byte2
     , byte4
     , byte8
-} EEPROM_shifter;
+} EEPROM_endianShift;
 
+/*
+*   The main EEPROM Manager that is typically referenced by
+*   EEPROMManager *me
+*   me->size
+*   me->data_software
+*   me->data_hardware
+*   me->status
+*/
 typedef struct _EEPROMManager /*!< struct identifier */
 {
     ubyte2 size;            //!< Size of EEPROM actually used by our software
@@ -146,6 +151,8 @@ bool EEPROMManager_initialized(EEPROMManager* me);
 bool readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
 
 bool writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data);
+
+void EEPROM_shifter(EEPROMManager* me, EEPROM_endianShift* me);
 
 // bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes);
 // void readInitialValues(ubyte1* data); 
