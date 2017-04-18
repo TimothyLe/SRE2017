@@ -59,29 +59,13 @@ bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
     ubyte2* address; /*!< Created for getAddress param */
     if(getAddress(parameter, address, value)){ /*!< Checks if the address can be found */
         if(writeEP){ /*!< Checks if the EEPROM has been written to */
-    for(int i = 0; i< me->size; i++){
-            value[i] = data_hardware[i]; /*!< Performs a deep copy */
+    while(address.size < me.size){
+            *value++ = *data_hardware++; /*!< Performs a deep copy */
     }
         return true; /*!< Mutation was successful */
 }
     return false; /*!< Mutation failed */
 }
-    //! Switch cases for checking the size of hardware data
-switch (sizeof(ubyte1)){
-        /*!< Keeps decreasing the passing data until it reaches optimal size */
-        case size8: //! Biggest size
-
-        break;
-        case size4:
-        break;
-        case size2:
-        break;
-        case size1: //! Smallest size
-        break;
-        default: //! Not a good sign if it gets here
-        data_hardware >> 8;
-        break;
-    }
 }
 
 //---------------------------------------------------------------
@@ -96,8 +80,8 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
     ubyte2* address; /*!< Created for getAddress param */
     if(getAddress(parameter, address, value)){ /*!< Checks if the address can be found */
         if(readEP){ /*!< Checks if the EEPROM has been read */
-    for(int i = 0; i< me->size; i++){
-            value[i] = data_hardware[i]; /*!< Performs a deep copy */
+    while(address.size < me.size){
+            *value++ = *data_hardware++; /*!< Performs a deep copy */
     }
         return true; /*!< Access was successful */
 }
@@ -122,7 +106,7 @@ IO_ErrorType EEPROMManager_sync(EEPROMManager* me, ubyte2 offset)
         if(me->data_hardware!=me->data_software){ /*!< Checks if it is already equivalent */
         writeEP(offset, me->size, me->data_software);  /*!< Physically write to hardware */
         //! Check if hardware is operating, EEPROM will lag car so push EEPROMoperations after
-        
+
         //!me.data_hardware = me.data_software; /*!< Previous prototype */
     }
 }while(EEPROMManager_getStatus!=IO_E_OK);
