@@ -56,14 +56,18 @@ EEPROMManager* EEPROMManager_new()
 bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* value)
 {
     //! Accessing the indexes of the dynamic array and deep copying values
-    ubyte2* address; /*!< Created for getAddress param */
+    ubyte2* address = 0; /*!< Created for getAddress param */
+    EEPROM_endianShift* shift;  //! Declaring a pointer to EEPROM_endianShift
     if(getAddress(parameter, address, value)){ /*!< Checks if the address can be found */
-        if(writeEP){ /*!< Checks if the EEPROM has been written to */
-    while(address.size < me.size){
-            *value++ = *data_hardware++; /*!< Performs a deep copy */
-    }
+        if(!writeEP(address,me->size,value)){ /*!< Checks if the EEPROM has been written to */
+    while(address < me.size){
+            //! Sets the hardware value to our given value
+            *data_hardware++ = *value++; /*!< Performs a deep copy */
+        *address++;
+            EEPROM_shifter(me,shift,value); //! Performs the shift if necessary
+        }
         return true; /*!< Mutation was successful */
-}
+    }
     return false; /*!< Mutation failed */
 }
 }
@@ -77,14 +81,18 @@ bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
 bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* value)
 {
     //! Accessing the indexes of the dynamic array and deep copying values
-    ubyte2* address; /*!< Created for getAddress param */
+    ubyte2* address = 0; /*!< Created for getAddress param */
+    EEPROM_endianShift* shift;  //! Declaring a pointer to EEPROM_endianShift
     if(getAddress(parameter, address, value)){ /*!< Checks if the address can be found */
-        if(readEP){ /*!< Checks if the EEPROM has been read */
-    while(address.size < me.size){
+        if(!readEP(address,me->size,value)){ /*!< Checks if the EEPROM has been read */
+    while(address < me->size){
+            //! Gets the hardware value by storing it in our given parameter
             *value++ = *data_hardware++; /*!< Performs a deep copy */
-    }
+        *address++;
+            EEPROM_shifter(me,shift,value); //! Performs the shift if necessary
+        }
         return true; /*!< Access was successful */
-}
+    }
     return false; /*!< Access failed */
 }
 }
@@ -105,11 +113,11 @@ IO_ErrorType EEPROMManager_sync(EEPROMManager* me, ubyte2 offset)
     do{
         if(me->data_hardware!=me->data_software){ /*!< Checks if it is already equivalent */
         writeEP(offset, me->size, me->data_software);  /*!< Physically write to hardware */
-        //! Check if hardware is operating, EEPROM will lag car so push EEPROMoperations after
-
-        //!me.data_hardware = me.data_software; /*!< Previous prototype */
+        //! Check if hardware is operating, EEPROM will lag car 
+        //  so push EEPROMoperations after
     }
-}while(EEPROMManager_getStatus!=IO_E_OK);
+    *data_hardware++ = *data_software++;    /*!< Performs a deep copy of software into hardware */
+}while(EEPROMManager_getStatus!=IO_E_OK);   /*!< Iterates through address while EEPROM is busy */
 }
 
 eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
@@ -118,9 +126,12 @@ eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
 }
 
 bool EEPROMManager_initialized(EEPROMManager* me){
-    //left empty
+    // Initializes pointer values of EEPROMManager
+    data_hardware = me->data_hardware;
+    data_software = me->data_software;
+    size = me->size;
+    status = me->status;
     return false;
-
 }
 
 //---------------------------------------------------------------
@@ -185,31 +196,34 @@ bool readEP(ubyte2 offset, ubyte2 length, ubyte1 data){
     /*!< to return IO_E_OK. */ 
 }
 
-//! Big Endian shifting prototype
-void EEPROM_shifter(EEPROMManager* me, EEPROM_endianShift* me){
-    switch(bigE){
-        case byte8:
-        if(sizeof(ubyte8)){
-            ubyte8 >> 4;
-        }
-        bigE = byte4;
+//! Helper Big Endian shifting function
+void EEPROM_shifter(EEPROMManager* me, EEPROM_endianShift* shift, ubyte1* value){
+    /*!< Use switch cases to sequentially shift the data size */
+    ubyte2 sizeEEPROM = 0; /*!< Keeps track of the data size */
+    switch(shift->isByte8){
+        case isByte8:                           //! Current state
+        if(sizeof(value)>sizeof(ubyte8)){       //! Checks if data is larger than size 8
+            sizeOf(value) = value >> 4;         //! Assigns shift as new size
+            sizeEEPROM = sizeOf(value);         //! Variable to store the size of the data
+            shift = shift->isByte4;             //! Switches to the next case
+        } else{ exit(1); }                      //! Exits the cases if the size is fine
         break;
-        case byte4:
-        if(sizeof(ubyte4)){
-            ubyte4 >> 2;
-        }
-        bigE = byte2;
+        case isByte4:
+        if(sizeof(value)>sizeof(ubyte4)){
+            sizeOf(value) = value >> 2;
+            sizeEEPROM = sizeOf(value);
+            shift = shift->isByte2;
+        } else{ exit(1); }
         break;
-        case byte2:
-        if(sizeof(ubyte2)){
-            ubyte8 >> 1;
-        }
-        bigE = byte1;
+        case isByte2:
+        if(sizeof(value)>sizeof(ubyte2)){
+            sizeOf(value) = value >> 1;
+            sizeEEPROM = sizeOf(value);
+            shift = shift->isByte1;
+        } else{ exit(1); }
         break;
-        case byte1:
-        if(sizeof(ubyte1)){
-            exit(1);
-        }
+        case isByte1:
+        sizeEEPROM = sizeOf(value);
         break;
         default:
         EEPROMManager_getStatus(me->status);
