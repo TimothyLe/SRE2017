@@ -73,10 +73,10 @@ typedef enum
 *           set_ubyte and get_byte helper functions
 */
 typedef enum _EEPROM_endianShift{
-    byte1
-    , byte2
-    , byte4
-    , byte8
+    isByte1
+    , isByte2
+    , isByte4
+    , isByte8
 } EEPROM_endianShift;
 
 /*
@@ -136,9 +136,12 @@ bool EEPROMManager_initialized(EEPROMManager* me);
  *
  *      They can be called multiple times per iteration. 
  *
+ * @param       me      Pointer to EEPROMManager
+ * @param       shift   Pointer to EEPROM_endianShift
  * @param[in]   offset  The index(location) of the EEPROM hex address
  * @param[in]   length  The amount of indexes to read from or write over
  * @param[out]  data    The data from the EEPROM stored bytes
+ * @param[out]  value   The data set that carries the size of the mutator/accessor parameters
  *
  * \return IO_ErrorType
  * \retval IO_E_OK                  everything fine / no changes needed
@@ -152,7 +155,7 @@ bool readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
 
 bool writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data);
 
-void EEPROM_shifter(EEPROMManager* me, EEPROM_endianShift* me);
+void EEPROM_shifter(EEPROMManager* me, EEPROM_endianShift* shift, ubyte4* value);
 
 // bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes);
 // void readInitialValues(ubyte1* data); 
