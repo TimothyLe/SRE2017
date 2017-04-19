@@ -1,5 +1,5 @@
 #include "eeprom.h"
-
+#include <stdlib.h> //malloc
 /***************************************************************
  
  The static keyword allows for a value to be preserved in between 
@@ -126,11 +126,12 @@ eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
 }
 
 bool EEPROMManager_initialized(EEPROMManager* me){
-    // Initializes pointer values of EEPROMManager
-    data_hardware = me->data_hardware;
-    data_software = me->data_software;
-    size = me->size;
-    status = me->status;
+    // Returns boolean value whether EEPROMManager has been initialized
+    ubyte2 offset = 0;
+    if(readEP(offset,me->size,me->data_hardware)){ //status
+        // use status to get states if eepromOperation
+        return true;
+    }
     return false;
 }
 
@@ -156,7 +157,7 @@ LOCAL bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes)
 }
 
 //Reads EEPROM and stores data in data_hardware.  Waits until read is complete.
-LOCAL void readInitialValues(ubyte1* data)  //->might be void since we aren't modifying anything
+LOCAL void readInitialValues(EEPROMManager* me)  //->might be void since we aren't modifying anything
 {
     //Read eeprom
     //Loop until status == ok
@@ -206,21 +207,21 @@ void EEPROM_shifter(EEPROMManager* me, EEPROM_endianShift* shift, ubyte1* value)
             sizeOf(value) = value >> 4;         //! Assigns shift as new size
             sizeEEPROM = sizeOf(value);         //! Variable to store the size of the data
             shift = shift->isByte4;             //! Switches to the next case
-        } else{ exit(1); }                      //! Exits the cases if the size is fine
+        } else exit(1);                       //! Exits the cases if the size is fine
         break;
         case isByte4:
         if(sizeof(value)>sizeof(ubyte4)){
             sizeOf(value) = value >> 2;
             sizeEEPROM = sizeOf(value);
             shift = shift->isByte2;
-        } else{ exit(1); }
+        } else exit(1); 
         break;
         case isByte2:
         if(sizeof(value)>sizeof(ubyte2)){
             sizeOf(value) = value >> 1;
             sizeEEPROM = sizeOf(value);
             shift = shift->isByte1;
-        } else{ exit(1); }
+        } else exit(1); 
         break;
         case isByte1:
         sizeEEPROM = sizeOf(value);
