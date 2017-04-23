@@ -49,7 +49,7 @@ typedef enum
     , EEPROM_val_regen_SpeedRampStart
     //, EEPROM_val_regen_throttlePedal
     
-    //! Faults and warnings can be found in the second enum
+    //! Faults and warnings can be found in the eepromOperation
     //, EEPROM_val_faults
     //, EEPROM_val_warnings
 } eepromValue;
@@ -71,13 +71,20 @@ typedef enum
 /*
 *   @brief  the stages for performing a big endian shift on the 
 *           set_ubyte and get_byte helper functions
+*   
+*   Endian shift referenced by
+*   EEPROM_endianShift* shift
+*   shift->isByte1
+*   shift->isByte2
+*   shift->isByte4
+*   shift->isByte8
 */
 typedef enum _EEPROM_endianShift{
     isByte1
     , isByte2
     , isByte4
     , isByte8
-} EEPROM_endianShift;
+} eeprom_endianShift;
 
 /*
 *   The main EEPROM Manager that is typically referenced by
@@ -92,8 +99,9 @@ typedef struct _EEPROMManager /*!< struct identifier */
     ubyte2 size;            //!< Size of EEPROM actually used by our software
     ubyte1* data_software;   //!< "Desired" EEPROM values.  Pointer to array of bytes.
     ubyte1* data_hardware;    //!< "Actual" (confirmed) EEPROM values.  Pointer to array of bytes.
-
+    eepromValue type;       //!< Gives developers easy way to request a specific value
     eepromOperation status; //!< The current operation being performed by EEPROM
+    eeprom_endianShift memory; //!< The current size of the memory address
 }EEPROMManager;
 
 //! Constructor
@@ -120,7 +128,7 @@ EEPROMManager* EEPROMManager_new();
  * \retval IO_E_CHANNEL_NOT_CONFIGURED the module is not initialized
  *
  ***************************************************************************/
-IO_ErrorType EEPROMManager_sync(EEPROMManager* me);
+eepromOperation EEPROMManager_sync(EEPROMManager* me, ubyte2 offset);
 
 eepromOperation EEPROMManager_getStatus(EEPROMManager* me);
 
@@ -151,11 +159,14 @@ bool EEPROMManager_initialized(EEPROMManager* me);
  * \retval IO_E_CHANNEL_NOT_CONFIGURED the module is not initialized
  *
  **************************************************************/
-bool readEP(ubyte2 offset, ubyte2 length, ubyte1 data);
+void readEP(ubyte2 offset, ubyte2 length, EEPROMManager* me);
 
-bool writeEP(ubyte2 offset, ubyte2 length, ubyte1 * data);
+void writeEP(ubyte2 offset, ubyte2 length, EEPROMManager* me);
 
-void EEPROM_shifter(EEPROMManager* me, EEPROM_endianShift* shift, ubyte4* value);
+void eeprom_endianShift_1(EEPROMManager* me, eeprom_endianShift* shift, ubyte1 value);
+void eeprom_endianShift_2(EEPROMManager* me, eeprom_endianShift* shift, ubyte1 value);
+void eeprom_endianShift_4(EEPROMManager* me, eeprom_endianShift* shift, ubyte1 value);
+void eeprom_endianShift_8(EEPROMManager* me, eeprom_endianShift* shift, ubyte1 value);
 
 // bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes);
 // void readInitialValues(ubyte1* data); 
