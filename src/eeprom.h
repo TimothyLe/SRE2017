@@ -33,20 +33,20 @@
  */
 typedef enum
 {
-    EEPROM_val_doNotUse         //!< ubyte4 0x0000
-    , EEPROM_val_TPS0_calibMin  //!< ubyte2 0x0004
-    , EEPROM_val_TPS0_calibMax  //!< ubyte2 0x0006
-    , EEPROM_val_TPS1_calibMin  //!< ubyte2 0x0008
-    , EEPROM_val_TPS1_calibMax  //!< ubyte2 0x000A
+    EEPROM_val_doNotUse = 0x0000         //!< ubyte4 0x0000
+    , EEPROM_val_TPS0_calibMin = 0x0004  //!< ubyte2 0x0004
+    , EEPROM_val_TPS0_calibMax = 0x0006  //!< ubyte2 0x0006
+    , EEPROM_val_TPS1_calibMin = 0x0008  //!< ubyte2 0x0008
+    , EEPROM_val_TPS1_calibMax = 0x000A  //!< ubyte2 0x000A
 
-    , EEPROM_val_MCM_torqueMaximumDNm //!< sbyte2 0x000C
-    , EEPROM_val_regen_torqueLimitDNm   //!< ubyte2 0x000E
-    , EEPROM_val_regen_torqueAtZeroPedalDNm //!< ubyte2 0x0010
-    , EEPROM_val_regen_percentAPPSForCoasting //!< float4 0x0014
-    , EEPROM_val_regen_percentBPSForMaxRegen //!< float4 0x0018
-    , EEPROM_val_regen_minimumSpeedKPH //!< ubyte2 0x001C
-    , EEPROM_val_regen_SpeedRampStart //!< ubyte2 0x001E
-    , EEPROM_val_regen_throttlePedal //!< ubyte2 0x0020
+    , EEPROM_val_MCM_torqueMaximumDNm = 0x000C //!< sbyte2 0x000C
+    , EEPROM_val_regen_torqueLimitDNm = 0x000E  //!< ubyte2 0x000E
+    , EEPROM_val_regen_torqueAtZeroPedalDNm = 0x0010 //!< ubyte2 0x0010
+    , EEPROM_val_regen_percentAPPSForCoasting =0x0014 //!< float4 0x0014
+    , EEPROM_val_regen_percentBPSForMaxRegen = 0x0018 //!< float4 0x0018
+    , EEPROM_val_regen_minimumSpeedKPH = 0x001C //!< ubyte2 0x001C
+    , EEPROM_val_regen_SpeedRampStart = 0x001E //!< ubyte2 0x001E
+    , EEPROM_val_regen_throttlePedal = 0x0020 //!< ubyte2 0x0020
     
     //! Faults and warnings can be found in the eepromOperation
     //, EEPROM_val_faults
@@ -78,12 +78,12 @@ typedef enum
 *   shift->isByte4
 *   shift->isByte8
 */
-typedef enum _EEPROM_endianShift{
-    isByte1
-    , isByte2
-    , isByte4
-    , isByte8
-} eeprom_endianShift;
+// typedef enum _EEPROM_endianShift{
+//     isByte1
+//     , isByte2
+//     , isByte4
+//     , isByte8
+// } eeprom_endianShift;
 
 /*
 *   The main EEPROM Manager that is typically referenced by
@@ -100,7 +100,6 @@ typedef struct _EEPROMManager /*!< struct identifier */
     ubyte1* data_hardware;    //!< "Actual" (confirmed) EEPROM values.  Pointer to array of bytes.
     eepromValue type;       //!< Gives developers easy way to request a specific value
     eepromOperation status; //!< The current operation being performed by EEPROM
-    eeprom_endianShift memory; //!< The current size of the memory address
 }EEPROMManager;
 
 //! Constructor
