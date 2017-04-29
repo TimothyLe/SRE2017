@@ -78,12 +78,12 @@ typedef enum
 *   shift->isByte4
 *   shift->isByte8
 */
-// typedef enum _EEPROM_endianShift{
-//     isByte1
-//     , isByte2
-//     , isByte4
-//     , isByte8
-// } eeprom_endianShift;
+typedef enum _EEPROM_endianShift{
+    isByte1
+    , isByte2
+    , isByte4
+    , isByte8
+} eepromLength;
 
 /*
 *   The main EEPROM Manager that is typically referenced by
@@ -100,6 +100,7 @@ typedef struct _EEPROMManager /*!< struct identifier */
     ubyte1* data_hardware;    //!< "Actual" (confirmed) EEPROM values.  Pointer to array of bytes.
     eepromValue type;       //!< Gives developers easy way to request a specific value
     eepromOperation status; //!< The current operation being performed by EEPROM
+    eepromLength length;    //!< Describes the amount of bytes in a value
 }EEPROMManager;
 
 //! Constructor
