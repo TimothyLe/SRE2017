@@ -24,6 +24,7 @@
 #ifndef _EEPROM_H
 #define _EEPROM_H
 
+#include <stdlib.h> //malloc
 #include "IO_Driver.h"
 #include "IO_EEPROM.h"
 
@@ -98,7 +99,7 @@ typedef struct _EEPROMManager /*!< struct identifier */
     ubyte2 size;            //!< Size of EEPROM actually used by our software
     ubyte1* data_software;   //!< "Desired" EEPROM values.  Pointer to array of bytes.
     ubyte1* data_hardware;    //!< "Actual" (confirmed) EEPROM values.  Pointer to array of bytes.
-    eepromValue type;       //!< Gives developers easy way to request a specific value
+    // eepromValue type;       //!< Gives developers easy way to request a specific value
     eepromOperation status; //!< The current operation being performed by EEPROM
     eepromLength length;    //!< Describes the amount of bytes in a value
 }EEPROMManager;
@@ -165,6 +166,19 @@ void writeEP(ubyte2 offset, ubyte2 length, EEPROMManager* me);
 void EEPROM_parseMessage(EEPROMManager* me, eepromValue parameter);
 // bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes);
 // void readInitialValues(ubyte1* data); 
+
+/** \defgroup Endian Shifters function for each datatype to get a locally stored EEPROM value.
+* \brief Performs little endian shift to preserve most significant bits of value
+* @param[in]    me          Pointer to the EEPROMManager
+* @param[in]    parameter   Which value to be read from EEPROM cache
+* @param[out]   value       The value from EEPROM will be returned here
+* \retval Whether the value was successfully read or not (in the cache).
+* \retval The size of the data (1 byte, 2 byte, 4 byte, or 8 byte->should be no larger).
+* \{
+*/
+bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1* value);
+bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2* value);
+bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4* value);
 
 /** \defgroup Accessors Different function for each datatype to get a locally stored EEPROM value.
 * \brief Gets value from the locally cached copy of EEPROM.
