@@ -25,6 +25,7 @@
 #define _EEPROM_H
 
 #include <stdlib.h> //malloc
+#include <stdio.h>
 #include "IO_Driver.h"
 #include "IO_EEPROM.h"
 
@@ -167,18 +168,24 @@ void EEPROM_parseMessage(EEPROMManager* me, eepromValue parameter);
 // bool getAddress(eepromValue value, ubyte2* address, ubyte1* bytes);
 // void readInitialValues(ubyte1* data); 
 
-/** \defgroup Endian Shifters function for each datatype to get a locally stored EEPROM value.
-* \brief Performs little endian shift to preserve most significant bits of value
+/** \defgroup Mutators Different function for each datatype to set a locally stored EEPROM value.
+* \brief Edits a value in the locally cached copy of EEPROM.
 * @param[in]    me          Pointer to the EEPROMManager
-* @param[in]    parameter   Which value to be read from EEPROM cache
-* @param[out]   value       The value from EEPROM will be returned here
-* \retval Whether the value was successfully read or not (in the cache).
+* @param[in]    parameter   Which variable to be edited in EEPROM cache
+* @param[in]    value       What to change the variable to
+* \retval Whether the value was successfully changed or not (in the cache).
 * \retval The size of the data (1 byte, 2 byte, 4 byte, or 8 byte->should be no larger).
-* \{
+* @{
 */
-bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1* value);
-bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2* value);
-bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4* value);
+bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1 value);
+bool EEPROMManager_set_ubyte2(EEPROMManager* me, eepromValue parameter, ubyte2 value);
+bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 value);
+bool EEPROMManager_set_sbyte1(EEPROMManager* me, eepromValue parameter, sbyte1 value);
+bool EEPROMManager_set_sbyte2(EEPROMManager* me, eepromValue parameter, sbyte2 value);
+bool EEPROMManager_set_sbyte4(EEPROMManager* me, eepromValue parameter, sbyte4 value);
+bool EEPROMManager_set_float4(EEPROMManager* me, eepromValue parameter, float4 value);
+bool EEPROMManager_set_bool(EEPROMManager* me, eepromValue parameter, bool value);
+/** @} */
 
 /** \defgroup Accessors Different function for each datatype to get a locally stored EEPROM value.
 * \brief Gets value from the locally cached copy of EEPROM.
@@ -199,25 +206,18 @@ bool EEPROMManager_get_float4(EEPROMManager* me, eepromValue parameter, float4* 
 bool EEPROMManager_get_bool(EEPROMManager* me, eepromValue parameter, bool* value);
 /** \} */
 
-
-/** \defgroup Mutators Different function for each datatype to set a locally stored EEPROM value.
-* \brief Edits a value in the locally cached copy of EEPROM.
+/** \defgroup Endian Shifters function for each datatype to get a locally stored EEPROM value.
+* \brief Performs little endian shift to preserve most significant bits of value
 * @param[in]    me          Pointer to the EEPROMManager
-* @param[in]    parameter   Which variable to be edited in EEPROM cache
-* @param[in]    value       What to change the variable to
-* \retval Whether the value was successfully changed or not (in the cache).
+* @param[in]    parameter   Which value to be read from EEPROM cache
+* @param[out]   value       The value from EEPROM will be returned here
+* \retval Whether the value was successfully read or not (in the cache).
 * \retval The size of the data (1 byte, 2 byte, 4 byte, or 8 byte->should be no larger).
-* @{
+* \{
 */
-bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1 value);
-bool EEPROMManager_set_ubyte2(EEPROMManager* me, eepromValue parameter, ubyte2 value);
-bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 value);
-bool EEPROMManager_set_sbyte1(EEPROMManager* me, eepromValue parameter, sbyte1 value);
-bool EEPROMManager_set_sbyte2(EEPROMManager* me, eepromValue parameter, sbyte2 value);
-bool EEPROMManager_set_sbyte4(EEPROMManager* me, eepromValue parameter, sbyte4 value);
-bool EEPROMManager_set_float4(EEPROMManager* me, eepromValue parameter, float4 value);
-bool EEPROMManager_set_bool(EEPROMManager* me, eepromValue parameter, bool value);
-/** @} */
+bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 value);
+bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 value);
+bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4 value);
 
 // /** \defgroup Accessors that return specific EEPROM values (calibrations, faults, etc)
 // * \brief Edits a value in the locally cached copy of EEPROM.

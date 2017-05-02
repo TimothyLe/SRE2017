@@ -1,5 +1,5 @@
 #include "eeprom.h"
-#include <stdlib.h> //malloc
+#include "resource.h"
 /***************************************************************
  
  The static keyword LOCAL allows for a value to be preserved in between 
@@ -21,7 +21,7 @@
 
 //! Prototypes used in constructor
 /*!< Functions partially defined in helper functions */
-LOCAL bool getAddress(EEPROMManager* me, eepromValue value, ubyte2 address, ubyte1* bytes);
+LOCAL bool getAddress(EEPROMManager* me, eepromValue value, ubyte2 address, ubyte2 bytes);
 LOCAL void readInitialValues(EEPROMManager* me); 
 // LOCAL void eepromLength_Classifier(EEPROMManager* me, eepromValue parameter);
 
@@ -66,13 +66,13 @@ bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1 v
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 offset = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
             (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
             (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
-            *me->data_software[offset] = value;
+            me->data_software[offset] = value;
         return TRUE; /*!< Access was successful */
 }
     return FALSE; /*!< Access failed */
@@ -81,12 +81,12 @@ bool EEPROMManager_set_ubyte2(EEPROMManager* me, eepromValue parameter, ubyte2 v
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 offset = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
             (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
-            *me->data_software[offset] = value;
+            me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
 }
     return FALSE; /*!< Access failed */
@@ -95,11 +95,11 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 offset = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
             (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
-            *me->data_software[offset] = value;
+            me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
 }
     return FALSE; /*!< Access failed */
@@ -108,13 +108,13 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
    //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 offset = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
             (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
             (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
-            *me->data_software[offset] = value;
+            me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
 }
     return FALSE; /*!< Access failed */
@@ -123,12 +123,12 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 offset = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
             (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
-            *me->data_software[offset] = value;
+            me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
 }
     return FALSE; /*!< Access failed */
@@ -137,11 +137,11 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 offset = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
             (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
-            *me->data_software[offset] = value;
+            me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
 }
     return FALSE; /*!< Access failed */
@@ -150,11 +150,11 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 offset = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
             (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
-            *me->data_software[offset] = value;
+            me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
 }
     return FALSE; /*!< Access failed */
@@ -163,13 +163,13 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 offset = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
             (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
             (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
-            *me->data_software[offset] = value;
+            me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
 }
     return FALSE; /*!< Access failed */
@@ -185,10 +185,10 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 address = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, address, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
         do {
-                eepromLength_shift1(me, parameter, value); //!< Clears value
+                eepromLength_shift1(me, parameter, *value); //!< Clears value
                 *value++ = *me->data_hardware++; /*!< Performs a deep copy */
             address++;
         } while(address < me->size);
@@ -200,12 +200,12 @@ bool EEPROMManager_get_ubyte2(EEPROMManager* me, eepromValue parameter, ubyte2* 
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 address = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, address, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
     do {
-                eepromLength_shift2(me, parameter, value); //!< Clears value
+                eepromLength_shift2(me, parameter, *value); //!< Clears value
                 *value++ = *me->data_hardware++; /*!< Performs a deep copy */
-        address++;
+            address++;
     } while(address < me->size);
         return TRUE; /*!< Access was successful */
 }
@@ -215,10 +215,10 @@ bool EEPROMManager_get_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4* 
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 address = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, address, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
     do {
-                eepromLength_shift4(me, parameter, value); //!< Clears value
+                eepromLength_shift4(me, parameter, *value); //!< Clears value
                 *value++ = *me->data_hardware++; /*!< Performs a deep copy */
         address++;
     } while(address < me->size);
@@ -230,10 +230,10 @@ bool EEPROMManager_get_sbyte1(EEPROMManager* me, eepromValue parameter, sbyte1* 
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 address = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, address, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
     do {
-                eepromLength_shift1(me, parameter, value); //!< Clears value
+                eepromLength_shift1(me, parameter, *value); //!< Clears value
                 *value++ = *me->data_hardware++; /*!< Performs a deep copy */
         address++;
     } while(address < me->size);
@@ -245,10 +245,10 @@ bool EEPROMManager_get_sbyte2(EEPROMManager* me, eepromValue parameter, sbyte2* 
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 address = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, address, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
     do {
-                eepromLength_shift2(me, parameter, value); //!< Clears value
+                eepromLength_shift2(me, parameter, *value); //!< Clears value
                 *value++ = *me->data_hardware++; /*!< Performs a deep copy */
         address++;
     } while(address < me->size);
@@ -260,10 +260,10 @@ bool EEPROMManager_get_sbyte4(EEPROMManager* me, eepromValue parameter, sbyte4* 
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 address = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, address, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
     do {
-        eepromLength_shift4(me, parameter, value); //!< Clears value
+        eepromLength_shift4(me, parameter, *value); //!< Clears value
                 *value++ = *me->data_hardware++; /*!< Performs a deep copy */
         address++;
     } while(address < me->size);
@@ -275,10 +275,10 @@ bool EEPROMManager_get_float4(EEPROMManager* me, eepromValue parameter, float4* 
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 address = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, address, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
     do {
-            eepromLength_shift4(me, parameter, value); //!< Clears value
+            eepromLength_shift4(me, parameter, *value); //!< Clears value
                 *value++ = *me->data_hardware++; /*!< Performs a deep copy */
         address++;
     } while(address < me->size);
@@ -290,10 +290,10 @@ bool EEPROMManager_get_bool(EEPROMManager* me, eepromValue parameter, bool* valu
     //! Accessing the indexes of the dynamic array and deep copying values
     ubyte2 address = parameter; /*!< Created for getAddress param */
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
-        if(EEPROMManager_initialized(me)){ /*!< Checks if the EEPROM has been read */
+        if(EEPROMManager_initialized(me) && getAddress(me, parameter, address, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
     do {
-            eepromLength_shift4(me, parameter, value); //!< Clears value
+            eepromLength_shift4(me, parameter, *value); //!< Clears value
                 *value++ = *me->data_hardware++; /*!< Performs a deep copy */
             address++;
         } while(address < me->size);
@@ -308,23 +308,29 @@ bool EEPROMManager_get_bool(EEPROMManager* me, eepromValue parameter, bool* valu
 /**  @ingroup Endian Shifters
 * @brief Performs little endian shift to preserve MSBs
 */
-bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1* value){
+bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 value){
+    bool flag = FALSE;
     /*!< If the value needs to be 1 byte, shift once, else then shift more */
-    (me->length >= isByte2) ? value = value >> 8 : 0; 
+    (me->length == isByte2) ? value = value >> 8 : 0; 
     /*!< Checks to see if little endian shift succeeded */
-    (sizeof(value) == sizeof(ubyte1)) ? return TRUE : return FALSE; 
+    (sizeof(value) == sizeof(ubyte1)) ? flag = TRUE: flag; 
+    return flag;
 }
-bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2* value){
+bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 value){
+    bool flag = FALSE;
     /*!< If the value needs to be 2 bytes, shift once, else then shift more */
-    (me->length >= isByte4) ? value = value >> 16 : eepromLength_shift1(me,parameter,value); 
+    (me->length == isByte4) ? value = value >> 16 : eepromLength_shift1(me,parameter,(ubyte1)value); 
     /*!< Checks to see if little endian shift succeeded */
-    (sizeof(value) == sizeof(ubyte2)) ? return TRUE : return FALSE; 
+    (sizeof(value) == sizeof(ubyte2)) ? flag = TRUE: flag; 
+    return flag;
 }
-bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4* value){
+bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4 value){
+    bool flag = FALSE;
     /*!< If the value needs to be 4 bytes, shift once, else then shift more */
-    (me->length >= isByte8) ? value = value >> 32 : eepromLength_shift2(me,parameter,value); 
+    (me->length == isByte8) ? value = value >> 32 : eepromLength_shift2(me,parameter,(ubyte2)value); 
     /*!< Checks to see if little endian shift succeeded */
-    (sizeof(value) == sizeof(ubyte4)) ? return TRUE : return FALSE; 
+    (sizeof(value) == sizeof(ubyte4)) ? flag = TRUE: flag;  
+    return flag;
 }
 
 // //---------------------------------------------------------------
@@ -386,7 +392,8 @@ eepromOperation EEPROMManager_sync(EEPROMManager* me, ubyte2 offset) //! Changed
     */
     eepromOperation temp = EEPROMManager_getStatus(me);
     ubyte2 length = me->size - offset;  /*!< Keeps track of remainder of EEPROM length */
-    if(getAddress(me->type,offset,me->data_software)){   /*!< Checks if offset is real address */
+    if(EEPROMManager_initialized(me)){   /*!< Checks if offset is real address */
+        readEP(offset, length, me); /*!< Reads previous EEPROM values before changes */
         writeEP(offset, length, me); /*!< Writes to the remainder of the EEPROM */
         temp = EEPROMManager_getStatus(me); /*!< Returns state based on successful write to EEPROM */
     return temp;
@@ -433,7 +440,7 @@ bool EEPROMManager_initialized(EEPROMManager* me){
  * @param[out]  bytes       The length (number of bytes) of the value
  * @return      Whether or not the address/length were successfully found.
  */
-LOCAL bool getAddress(EEPROMManager* me, eepromValue value, ubyte2 address, ubyte1* bytes)
+LOCAL bool getAddress(EEPROMManager* me, eepromValue value, ubyte2 address, ubyte2 bytes)
 {
     bool success = FALSE;
     (value == EEPROM_val_doNotUse
@@ -449,9 +456,9 @@ LOCAL bool getAddress(EEPROMManager* me, eepromValue value, ubyte2 address, ubyt
        || value == EEPROM_val_regen_SpeedRampStart
        || value == EEPROM_val_regen_minimumSpeedKPH
        || value == EEPROM_val_regen_torqueAtZeroPedalDNm
-       || value == EEPROM_val_regen_percentBPSForMaxRegen) ? success = TRUE;
+       || value == EEPROM_val_regen_percentBPSForMaxRegen) ? success = TRUE : success;
     address = value; 
-    *bytes = me->size;
+    bytes = me->size;
     return success;
 }
 
