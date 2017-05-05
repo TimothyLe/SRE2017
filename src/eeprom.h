@@ -44,7 +44,7 @@ typedef enum
     , EEPROM_val_MCM_torqueMaximumDNm = 0x000C //!< sbyte2 0x000C
     , EEPROM_val_regen_torqueLimitDNm = 0x000E  //!< ubyte2 0x000E
     , EEPROM_val_regen_torqueAtZeroPedalDNm = 0x0010 //!< ubyte2 0x0010
-    , EEPROM_val_regen_percentAPPSForCoasting =0x0014 //!< float4 0x0014
+    , EEPROM_val_regen_percentAPPSForCoasting =0x0014 //!< float4 0x0014 
     , EEPROM_val_regen_percentBPSForMaxRegen = 0x0018 //!< float4 0x0018
     , EEPROM_val_regen_minimumSpeedKPH = 0x001C //!< ubyte2 0x001C
     , EEPROM_val_regen_SpeedRampStart = 0x001E //!< ubyte2 0x001E
@@ -81,10 +81,10 @@ typedef enum
 *   shift->isByte8
 */
 typedef enum _EEPROM_endianShift{
-    isByte1
-    , isByte2
-    , isByte4
-    , isByte8
+    isByte1 //= sizeof(ubyte1)
+    , isByte2 //= sizeof(ubyte2)
+    , isByte4 //= sizeof(ubyte4)
+    , isByte8 //= sizeof(bool)
 } eepromLength;
 
 /*
