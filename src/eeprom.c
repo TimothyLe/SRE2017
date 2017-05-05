@@ -68,9 +68,9 @@ bool EEPROMManager_set_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1 v
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
         if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
-            (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
-            (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
-            (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
+            // (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
+            // (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
+            // (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
             me->data_software[offset] = value;
         return TRUE; /*!< Access was successful */
@@ -83,8 +83,8 @@ bool EEPROMManager_set_ubyte2(EEPROMManager* me, eepromValue parameter, ubyte2 v
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
         if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
-            (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
-            (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
+            // (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
+            // (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
             me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
@@ -97,7 +97,7 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
         if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
-            (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
+            // (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
             me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
@@ -110,9 +110,9 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
         if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
-            (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
-            (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
-            (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
+            // (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
+            // (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
+            // (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
             me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
@@ -125,8 +125,8 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
         if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
-            (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
-            (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
+            // (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
+            // (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
             me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
@@ -139,7 +139,7 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
         if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
-            (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
+            // (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
             me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
@@ -152,7 +152,7 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
         if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
-            (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
+            // (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
             me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
@@ -165,9 +165,9 @@ bool EEPROMManager_set_ubyte4(EEPROMManager* me, eepromValue parameter, ubyte4 v
     EEPROM_parseMessage(me,parameter);  /*!< Finds the EEPROMManager size */
         if(EEPROMManager_initialized(me) && getAddress(me, parameter, offset, (ubyte2)value)){ /*!< Checks if the EEPROM has been read */
             //! Gets the EEPROM hardware value by storing it in our given parameter
-            (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
-            (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
-            (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
+            // (me->length == isbyte8) ? eepromLength_shift4(me, parameter, value) : 0;
+            // (me->length == isbyte4) ? eepromLength_shift2(me, parameter, value) : 0;
+            // (me->length == isbyte2) ? eepromLength_shift1(me, parameter, value) : 0;
             /*!< Shifts performs to ensure the value is the correct size for parameter */
             me->data_software[offset] = (ubyte1)value;
         return TRUE; /*!< Access was successful */
@@ -310,8 +310,9 @@ bool EEPROMManager_get_bool(EEPROMManager* me, eepromValue parameter, bool* valu
 */
 bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 value){
     bool flag = FALSE;
+    ubyte2 offset;
     /*!< If the value needs to be 1 byte, shift once, else then shift more */
-    (me->length == isByte2) ? value = value >> 8 : 0; 
+    (me->length == isByte2) ? value = me->data_software[offset] >> 4 : 0; 
     /*!< Checks to see if little endian shift succeeded */
     (sizeof(value) == sizeof(ubyte1)) ? flag = TRUE: flag; 
     return flag;
@@ -319,7 +320,7 @@ bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 value)
 bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 value){
     bool flag = FALSE;
     /*!< If the value needs to be 2 bytes, shift once, else then shift more */
-    (me->length == isByte4) ? value = value >> 16 : eepromLength_shift1(me,parameter,(ubyte1)value); 
+    (me->length == isByte4) ? value = value >> 8 : eepromLength_shift1(me,parameter,(ubyte1)value); 
     /*!< Checks to see if little endian shift succeeded */
     (sizeof(value) == sizeof(ubyte2)) ? flag = TRUE: flag; 
     return flag;
@@ -327,7 +328,7 @@ bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 value)
 bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4 value){
     bool flag = FALSE;
     /*!< If the value needs to be 4 bytes, shift once, else then shift more */
-    (me->length == isByte8) ? value = value >> 32 : eepromLength_shift2(me,parameter,(ubyte2)value); 
+    (me->length == isByte8) ? value = value >> 16 : eepromLength_shift2(me,parameter,(ubyte2)value); 
     /*!< Checks to see if little endian shift succeeded */
     (sizeof(value) == sizeof(ubyte4)) ? flag = TRUE: flag;  
     return flag;
@@ -443,22 +444,48 @@ bool EEPROMManager_initialized(EEPROMManager* me){
 LOCAL bool getAddress(EEPROMManager* me, eepromValue value, ubyte2 address, ubyte2 bytes)
 {
     bool success = FALSE;
-    (value == EEPROM_val_doNotUse
-       || value == EEPROM_val_TPS0_calibMin 
-       || value == EEPROM_val_TPS0_calibMax 
-       || value == EEPROM_val_TPS1_calibMin
-       || value == EEPROM_val_TPS1_calibMax
-       || value == EEPROM_val_regen_throttlePedal
-       || value == EEPROM_val_MCM_torqueMaximumDNm
-       || value == EEPROM_val_regen_torqueLimitDNm
-       || value == EEPROM_val_regen_percentAPPSForCoasting
-       || value == EEPROM_val_regen_torqueLimitDNm
-       || value == EEPROM_val_regen_SpeedRampStart
-       || value == EEPROM_val_regen_minimumSpeedKPH
-       || value == EEPROM_val_regen_torqueAtZeroPedalDNm
+    //!< Comments on the side are incorrect, fix later?
+    (value == EEPROM_val_doNotUse                               //!< ubyte4 0x0000
+       || value == EEPROM_val_TPS0_calibMin                     //!< ubyte2 0x0004
+       || value == EEPROM_val_TPS0_calibMax                     //!< ubyte2 0x0006
+       || value == EEPROM_val_TPS1_calibMin                     //!< ubyte2 0x0008
+       || value == EEPROM_val_TPS1_calibMax                     //!< ubyte2 0x000A
+       || value == EEPROM_val_MCM_torqueMaximumDNm              //!< sbyte2 0x000C
+       || value == EEPROM_val_regen_throttlePedal               //!< ubyte2 0x000E
+       || value == EEPROM_val_regen_torqueLimitDNm              //!< ubyte2 0x0010
+       || value == EEPROM_val_regen_percentAPPSForCoasting      //!< float4 0x0014
+       || value == EEPROM_val_regen_torqueLimitDNm              //!< float4 0x0018
+       || value == EEPROM_val_regen_SpeedRampStart              //!< ubyte2 0x001C
+       || value == EEPROM_val_regen_minimumSpeedKPH             //!< ubyte2 0x001E
+       || value == EEPROM_val_regen_torqueAtZeroPedalDNm        //!< ubyte2 0x0020
        || value == EEPROM_val_regen_percentBPSForMaxRegen) ? success = TRUE : success;
-    address = value; 
-    bytes = me->size;
+    if(value == EEPROM_val_doNotUse) 
+        address = 0x0000;
+    else if(value == EEPROM_val_TPS0_calibMin) 
+        address = 0x0004;
+    else if(value == EEPROM_val_TPS0_calibMax) 
+        address = 0x0006;
+    else if(value == EEPROM_val_TPS1_calibMin) 
+        address = 0x0008;
+    else if(value == EEPROM_val_TPS1_calibMax) 
+        address = 0x000A;
+    else if(value == EEPROM_val_MCM_torqueMaximumDNm) 
+        address = 0x000C;
+    else if(value == EEPROM_val_regen_torqueLimitDNm) 
+        address = 0x000E;
+    else if(value == EEPROM_val_regen_torqueAtZeroPedalDNm) 
+        address = 0x0010;
+    else if(value == EEPROM_val_regen_percentAPPSForCoasting) 
+        address = 0x0014;
+    else if(value == EEPROM_val_regen_percentBPSForMaxRegen) 
+        address = 0x0018;
+    else if(value == EEPROM_val_regen_minimumSpeedKPH) 
+        address = 0x001C;
+    else if(value == EEPROM_val_regen_SpeedRampStart) 
+        address = 0x001E;
+    else if(value == EEPROM_val_regen_throttlePedal) 
+        address = 0x0020;
+    me->size = bytes;
     return success;
 }
 
