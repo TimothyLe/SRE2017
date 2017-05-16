@@ -438,7 +438,8 @@ eepromOperation EEPROMManager_sync(EEPROMManager* me, ubyte2 offset) //! Changed
     */
     eepromOperation temp = EEPROMManager_getStatus(me);
     ubyte2 length = me->size - offset;  /*!< Keeps track of remainder of EEPROM length */
-    if(EEPROMManager_initialized(me)){   /*!< Checks if offset is real address */
+    // TODO
+    if(EEPROMManager_getStatus(me) == EEPROM_op_idle){   /*!< EEPROM object should be initialized already */
         readEP(offset, length, me); /*!< Reads previous EEPROM values before changes */
         writeEP(offset, length, me); /*!< Writes to the remainder of the EEPROM */
         temp = EEPROMManager_getStatus(me); /*!< Returns state based on successful write to EEPROM */
@@ -469,16 +470,12 @@ eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
 
 bool EEPROMManager_initialized(EEPROMManager* me){
     // Returns boolean value whether EEPROMManager has been initialized
-    (me->size > 0
-        && me->data_software 
-        && me->data_hardware
-        && me->status == EEPROM_op_idle
-        && me->length  )
-    if(me->status == EEPROM_op_idle){ //status is fine
-        // use status to get states if eepromOperation
-        return TRUE;
-    }
-    return FALSE;
+    bool flag = FALSE;
+    if(me->data_software == (ubyte1*)malloc(sizeof(ubyte1) * me->size)
+        && me->data_hardware == (ubyte1*)malloc(sizeof(ubyte1) * me->size)
+        && me->status == EEPROM_op_initialize
+        && me->length == isByte8) flag = TRUE;
+    return flag;
 }
 
 //---------------------------------------------------------------
@@ -511,8 +508,9 @@ LOCAL ubyte2 getAddress(EEPROMManager* me, eepromValue value)
     //    || value == EEPROM_val_regen_minimumSpeedKPH             //!< ubyte2 0x001E
     //    || value == EEPROM_val_regen_torqueAtZeroPedalDNm        //!< ubyte2 0x0020
     //    || value == EEPROM_val_regen_percentBPSForMaxRegen) ? success = TRUE : success;
-    if (me->status == EEPROM_op_idle){
-        (value == EEPROM_val_doNotUse) ? return 0x0000 : return 0;
+    if (EEPROMManager_initialized(me)){
+        if(value == EEPROM_val_doNotUse)
+            return 0x0000;
         else if(value == EEPROM_val_TPS0_calibMin){
             return 0x0004;
         } 
@@ -560,7 +558,7 @@ LOCAL void readInitialValues(EEPROMManager* me)  //->might be void since we aren
     //Read eeprom
     //Loop until status == ok
     me->status = EEPROM_op_initialize;
-    while(EEPROMManager_getStatus(me) != EEPROM_op_idle){
+    while(EEPROMManager_initialized(me)){ //!< EEPROM object must be initialized already
         readEP(0x0, me->size, me);  /*!< Initiates first read to data_hardware */
     }
     
