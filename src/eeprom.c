@@ -459,13 +459,13 @@ eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
      * retval IO_E_CHANNEL_NOT_CONFIGURED the module is not initialized
      */
     eepromOperation temp = me->status;
-    if(IO_EEPROM_GetStatus()==IO_E_OK){
+    if(IO_EEPROM_GetStatus()==IO_E_OK)
         return temp = EEPROM_op_idle;                      /*!< EEPROM status is fine */
-    } else if(IO_EEPROM_GetStatus()==IO_E_BUSY){
+    else if(IO_EEPROM_GetStatus()==IO_E_BUSY)
         return temp = EEPROM_op_validate;                /*!< EEPROM is current performing an operation */
-    } else{
+    else
         return temp = EEPROM_op_fault;                     /*!< Invalid range, null pointer passed, or not initialized */
-    }
+    
 }
 
 bool EEPROMManager_initialized(EEPROMManager* me){
@@ -473,8 +473,7 @@ bool EEPROMManager_initialized(EEPROMManager* me){
     bool flag = FALSE;
     if(me->data_software == (ubyte1*)malloc(sizeof(ubyte1) * me->size)
         && me->data_hardware == (ubyte1*)malloc(sizeof(ubyte1) * me->size)
-        && me->status == EEPROM_op_initialize
-        && me->length == isByte8) flag = TRUE;
+        && me->status == EEPROM_op_initialize) flag = TRUE;
     return flag;
 }
 
@@ -511,42 +510,30 @@ LOCAL ubyte2 getAddress(EEPROMManager* me, eepromValue value)
     if (EEPROMManager_initialized(me)){
         if(value == EEPROM_val_doNotUse)
             return 0x0000;
-        else if(value == EEPROM_val_TPS0_calibMin){
-            return 0x0004;
-        } 
-        else if(value == EEPROM_val_TPS0_calibMax){
-            return 0x0006;
-        } 
-        else if(value == EEPROM_val_TPS1_calibMin){
-            return 0x0008;
-        } 
-        else if(value == EEPROM_val_TPS1_calibMax){
-            return 0x000A;
-        } 
-        else if(value == EEPROM_val_MCM_torqueMaximumDNm){
-            return 0x000C;
-        } 
-        else if(value == EEPROM_val_regen_torqueLimitDNm){
-            return 0x000E;
-        } 
-        else if(value == EEPROM_val_regen_torqueAtZeroPedalDNm){
-            return 0x0010;
-        } 
-        else if(value == EEPROM_val_regen_percentAPPSForCoasting){
-            return 0x0014;
-        } 
-        else if(value == EEPROM_val_regen_percentBPSForMaxRegen){
-            return 0x0018;
-        } 
-        else if(value == EEPROM_val_regen_minimumSpeedKPH){
-            return 0x001C;
-        } 
-        else if(value == EEPROM_val_regen_SpeedRampStart){
-            return 0x001E;
-        } 
-        else if(value == EEPROM_val_regen_throttlePedal){
-            return 0x0020;
-        } 
+        else if(value == EEPROM_val_TPS0_calibMin)
+            return 0x0004; 
+        else if(value == EEPROM_val_TPS0_calibMax)
+            return 0x0006; 
+        else if(value == EEPROM_val_TPS1_calibMin)
+            return 0x0008; 
+        else if(value == EEPROM_val_TPS1_calibMax)
+            return 0x000A; 
+        else if(value == EEPROM_val_MCM_torqueMaximumDNm)
+            return 0x000C; 
+        else if(value == EEPROM_val_regen_torqueLimitDNm)
+            return 0x000E; 
+        else if(value == EEPROM_val_regen_torqueAtZeroPedalDNm)
+            return 0x0010; 
+        else if(value == EEPROM_val_regen_percentAPPSForCoasting)
+            return 0x0014; 
+        else if(value == EEPROM_val_regen_percentBPSForMaxRegen)
+            return 0x0018; 
+        else if(value == EEPROM_val_regen_minimumSpeedKPH)
+            return 0x001C; 
+        else if(value == EEPROM_val_regen_SpeedRampStart)
+            return 0x001E; 
+        else if(value == EEPROM_val_regen_throttlePedal)
+            return 0x0020; 
         return 0;
     }
     return address;
