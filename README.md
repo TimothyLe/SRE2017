@@ -46,20 +46,6 @@ TODO:
 For more information on certain components of the code or more clarity on topics, consult my wiki for more insight on certain topics and potential frequently asked questions after finishing this readme:   
 https://github.com/TimothyLe/SRE2017/wiki
 
-### Making a push request
-Open up a Git Bash, cmder, or etc and type the following commands.  
-```
-git clone https://github.com/TimothyLe/SRE2017.git [Your local directory]  
-git add . [or any single files you like]  
-git commit -m "Your message"  
-git remote add origin https://github.com/TimothyLe/SRE2017.git  
-git remote -v  
-git pull origin master  
-git push origin master  
-log [optional]  
-```
-Shortly, the request should arrive here.   
-
 ## Links
 [EEPROM Addresses](https://app.box.com/s/nbz92djxusbby6u214ghj4r6kfeen3ia)
 
@@ -68,3 +54,5 @@ Shortly, the request should arrive here.
 [VCU Pinout](https://1drv.ms/x/s!Avhc248Pj7v5gt4A6qt_feUsrY_taA) *Incorrect*
 
 [Updated Pinout w/ Ranges](https://app.box.com/s/b72z2jhthd8sobolhyxe6k7jv8ms0adg)
+
+[Team Website](http://spartanracingelectric.com)
