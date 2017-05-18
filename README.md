@@ -10,26 +10,23 @@
 
 ## My custom rendition of SRE code  
 **Goals this week**  
-* New:
-* eeprom_parseMessage
- - Finds the length of eepromValue
- - Distinguishes the size of the value
-* eepromLength_shift
- - Performs little endian shifts where necessary
-* set/get
- - rewritten
-* Commented out former prototypes
- - former parse function
- - former endian shift function
- - potential set/get functions using sprintf
-TODO:
- - Need to finish last of syntax errors then fix sync (writeEP->data_software; readEP->data_hardware; *data_software++ = *data_hardware++)
+* Get that code to compile and link
 
 **Completed**
 * Basic EEPROM outline (data structures, declarations, definitions, etc) :white_check_mark:  
 * DIO test phase 1 (*outcome not as expected*) :white_check_mark:  
 * Unit testing for EEPROM (*successfully wrote to EEPROM*) :white_check_mark:  
 * EEPROM Research :white_check_mark:    
+* EEPROM parse assigns eepromValues to hex values  
+* EEPROM set/get written out  
+* EEPROM_initialized checks if constructor is successful and returns boolean  
+* read_initialized returns the values of EEPROM  
+* EEPROM getStatus using IO_EEPROM API to return condition  
+* getAddress returns a paticular ubyte2 offset from an eepromValue as a paramter using parse function  
+* Reading the EEPROM stores values into data_hardware dynamic array  
+* Writing the EEPROM stores values into data_software dynamic array  
+* New length member in EEPROMManager object  
+* Bottom of header file stores set/get prototype in comments of individual eepromValues  
 
 ## Casual.pm Tasks
 * Read/Write EEPROM testing (__me__)  
