@@ -321,57 +321,75 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
  * @param[out]  value       The little endian shifted result
  * @return      Whether or not the endian shift was successful
  */
-    bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 value){
+    bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 *value){
         bool flag = FALSE;
         ubyte2 offset = getAddress(me, parameter);
+        ubyte2 index = 0;
         if(EEPROMManager_initialized(me)){
         /*!< If the value needs to be 1 byte, shift once, else then shift more */
-            if (me->length == isByte8)
-                flag = eepromLength_shift4(me, parameter, (ubyte4)value);
-            else if (me->length == isByte4)
-                flag = eepromLength_shift2(me, parameter, (ubyte2)value);
-            else if (me->length == isByte2)
-                value = me->data_software[offset] >> 3; 
-            else
-                value = (ubyte1)me->data_software[offset];
+            if(me->length == isByte1){
+                while(index <= offset){
+                    *value++ = *me->data_software++; 
+                    index++;
+                }
+            } else if(me->length == isByte2)
+                eepromLength_shift2(me, parameter, (ubyte2)value);
     // (me->length == isByte2) ? value = me->data_software[offset] >> 4 : value = (ubyte1)me->data_software[offset]; 
     /*!< Checks to see if little endian shift succeeded */
             (sizeof(value) == sizeof(ubyte1)) ? flag = TRUE: flag; 
         }
         return flag;
     }
-    bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 value){
+    bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 *value){
         bool flag = FALSE;
         ubyte2 offset = getAddress(me, parameter);
+        ubyte2 index = 0;
         if(EEPROMManager_initialized(me)){
         /*!< If the value needs to be 2 bytes, shift once, else then shift more */
             if (me->length == isByte8)
                 flag = eepromLength_shift4(me, parameter, (ubyte4)value);
-            else if (me->length == isByte4)
-                value = me->data_software[offset] >> 7; 
+            else if (me->length == isByte4){
+                while(index <= offset){
+                    *value++ = *me->data_software++; 
+                    index++;
+                }
+            }
             else if (me->length == isByte2)
                 flag = eepromLength_shift1(me, parameter, (ubyte1)value);
-            else
-                value = (ubyte2)me->data_software[offset];
+            else{
+                while(index <= offset){
+                    *value++ = *me->data_software++; 
+                    index++;
+                }
+            }
     // (me->length == isByte4) ? value = value >> 8 : eepromLength_shift1(me,parameter,(ubyte1)value); 
     /*!< Checks to see if little endian shift succeeded */
             (sizeof(value) == sizeof(ubyte2)) ? flag = TRUE: flag; 
         }
         return flag;
     }
-    bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4 value){
+    bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4 *value){
         bool flag = FALSE;
         ubyte2 offset = getAddress(me, parameter);
+        ubyte2 index = 0;
         if(EEPROMManager_initialized(me)){
         /*!< If the value needs to be 4 bytes, shift once, else then shift more */
-            if (me->length == isByte8)
-            value = me->data_software[offset] >> 15; // Why cannot use 16 bits?
+            if (me->length == isByte8){
+                while(index <= offset){
+                    *value++ = *me->data_software++; 
+                    index++;
+                }
+            }
         else if (me->length == isByte4)
             flag = eepromLength_shift2(me, parameter, (ubyte2)value);
         else if (me->length == isByte2)
             flag = eepromLength_shift1(me, parameter, (ubyte1)value);
-        else
-            value = (ubyte4)me->data_software[offset];
+        else{
+            while(index <= offset){
+                    *value++ = *me->data_software++; 
+                    index++;
+                }
+        }
     // (me->length == isByte8) ? value = value >> 16 : eepromLength_shift2(me,parameter,(ubyte2)value); 
     /*!< Checks to see if little endian shift succeeded */
         (sizeof(value) == sizeof(ubyte4)) ? flag = TRUE: flag;  
