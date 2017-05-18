@@ -209,9 +209,9 @@ bool EEPROMManager_get_bool(EEPROMManager* me, eepromValue parameter, bool* valu
 * \retval The size of the data (1 byte, 2 byte, 4 byte, or 8 byte->should be no larger).
 * \{
 */
-bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 value);
-bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 value);
-bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4 value);
+bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 *value);
+bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 *value);
+bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4 *value);
 
 // /** \defgroup Accessors that return specific EEPROM values (calibrations, faults, etc)
 // * \brief Edits a value in the locally cached copy of EEPROM.
