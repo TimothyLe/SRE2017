@@ -322,18 +322,26 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
  * @return      Whether or not the endian shift was successful
  */
     bool eepromLength_shift1(EEPROMManager* me, eepromValue parameter, ubyte1 value){
-        bool flag = FALSE;
+        //!< flag ---> shift was successful
+        //!< shift --> the value was assigned a shifted one
+        bool flag = FALSE, shift = FALSE;
         ubyte2 offset = getAddress(me, parameter);
         if(EEPROMManager_initialized(me)){
         /*!< If the value needs to be 1 byte, shift once, else then shift more */
-            if (me->length == isByte8)
-                flag = eepromLength_shift4(me, parameter, (ubyte4)value);
-            else if (me->length == isByte4)
-                flag = eepromLength_shift2(me, parameter, (ubyte2)value);
-            else if (me->length == isByte2)
-                value = me->data_software[offset] >> 3; 
-            else
-                value = (ubyte1)me->data_software[offset];
+            while(!shift){
+                if (me->length == isByte8)
+                    flag = eepromLength_shift4(me, parameter, (ubyte4)value);
+                else if (me->length == isByte4)
+                    flag = eepromLength_shift2(me, parameter, (ubyte2)value);
+                else if (me->length == isByte2){
+                    value = me->data_software[offset] << 4; 
+                    shift = TRUE;
+                }
+                else{
+                    value = me->data_software[offset];
+                    shift = TRUE;
+                }
+            }
     // (me->length == isByte2) ? value = me->data_software[offset] >> 4 : value = (ubyte1)me->data_software[offset]; 
     /*!< Checks to see if little endian shift succeeded */
             (sizeof(value) == sizeof(ubyte1)) ? flag = TRUE: flag; 
@@ -341,18 +349,26 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
         return flag;
     }
     bool eepromLength_shift2(EEPROMManager* me, eepromValue parameter, ubyte2 value){
-        bool flag = FALSE;
+        //!< flag ---> shift was successful
+        //!< shift --> the value was assigned a shifted one
+        bool flag = FALSE, shift = FALSE;   
         ubyte2 offset = getAddress(me, parameter);
         if(EEPROMManager_initialized(me)){
         /*!< If the value needs to be 2 bytes, shift once, else then shift more */
-            if (me->length == isByte8)
-                flag = eepromLength_shift4(me, parameter, (ubyte4)value);
-            else if (me->length == isByte4)
-                value = me->data_software[offset] >> 7; 
-            else if (me->length == isByte2)
-                flag = eepromLength_shift1(me, parameter, (ubyte1)value);
-            else
-                value = (ubyte2)me->data_software[offset];
+            while(!shift){
+                if (me->length == isByte8)
+                    flag = eepromLength_shift4(me, parameter, (ubyte4)value);
+                else if (me->length == isByte4){
+                    value += me->data_software[offset] << 8; 
+                    shift = TRUE;
+                }
+                else if (me->length == isByte2)
+                    flag = eepromLength_shift1(me, parameter, (ubyte1)value);
+                else{
+                    value += (ubyte2)me->data_software[offset];
+                    shift = TRUE;
+                }
+            }
     // (me->length == isByte4) ? value = value >> 8 : eepromLength_shift1(me,parameter,(ubyte1)value); 
     /*!< Checks to see if little endian shift succeeded */
             (sizeof(value) == sizeof(ubyte2)) ? flag = TRUE: flag; 
@@ -360,24 +376,32 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
         return flag;
     }
     bool eepromLength_shift4(EEPROMManager* me, eepromValue parameter, ubyte4 value){
-        bool flag = FALSE;
+        //!< flag ---> shift was successful
+        //!< shift --> the value was assigned a shifted one
+        bool flag = FALSE, shift = FALSE;
         ubyte2 offset = getAddress(me, parameter);
         if(EEPROMManager_initialized(me)){
         /*!< If the value needs to be 4 bytes, shift once, else then shift more */
-            if (me->length == isByte8)
-            value = me->data_software[offset] >> 15; // Why cannot use 16 bits?
-        else if (me->length == isByte4)
-            flag = eepromLength_shift2(me, parameter, (ubyte2)value);
-        else if (me->length == isByte2)
-            flag = eepromLength_shift1(me, parameter, (ubyte1)value);
-        else
-            value = (ubyte4)me->data_software[offset];
+            while(!shift){
+                if (me->length == isByte8){
+                    value += me->data_software[offset] << 15; // Why cannot use 16 bits?
+                    shift = TRUE;
+                }
+                else if (me->length == isByte4)
+                    flag = eepromLength_shift2(me, parameter, (ubyte2)value);
+                else if (me->length == isByte2)
+                    flag = eepromLength_shift1(me, parameter, (ubyte1)value);
+                else{
+                    value += (ubyte4)me->data_software[offset];
+                    shift = TRUE;
+                }
+            }
     // (me->length == isByte8) ? value = value >> 16 : eepromLength_shift2(me,parameter,(ubyte2)value); 
     /*!< Checks to see if little endian shift succeeded */
-        (sizeof(value) == sizeof(ubyte4)) ? flag = TRUE: flag;  
+            (sizeof(value) == sizeof(ubyte4)) ? flag = TRUE: flag;  
+        }
+        return flag;
     }
-    return flag;
-}
 
 // //---------------------------------------------------------------
 // // EEPROM Value Accessors
@@ -461,21 +485,21 @@ eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
     eepromOperation temp = me->status;
     if(IO_EEPROM_GetStatus()==IO_E_OK)
         return temp = EEPROM_op_idle;                      /*!< EEPROM status is fine */
-    else if(IO_EEPROM_GetStatus()==IO_E_BUSY)
+        else if(IO_EEPROM_GetStatus()==IO_E_BUSY)
         return temp = EEPROM_op_validate;                /*!< EEPROM is current performing an operation */
-    else
+            else
         return temp = EEPROM_op_fault;                     /*!< Invalid range, null pointer passed, or not initialized */
-    
-}
 
-bool EEPROMManager_initialized(EEPROMManager* me){
+        }
+
+    bool EEPROMManager_initialized(EEPROMManager* me){
     // Returns boolean value whether EEPROMManager has been initialized
-    bool flag = FALSE;
-    if(me->data_software == (ubyte1*)malloc(sizeof(ubyte1) * me->size)
-        && me->data_hardware == (ubyte1*)malloc(sizeof(ubyte1) * me->size)
-        && me->status == EEPROM_op_initialize) flag = TRUE;
-    return flag;
-}
+        bool flag = FALSE;
+        if(me->data_software == (ubyte1*)malloc(sizeof(ubyte1) * me->size)
+            && me->data_hardware == (ubyte1*)malloc(sizeof(ubyte1) * me->size)
+            && me->status == EEPROM_op_initialize) flag = TRUE;
+            return flag;
+    }
 
 //---------------------------------------------------------------
 // Static Helper functions (private)
@@ -489,9 +513,9 @@ bool EEPROMManager_initialized(EEPROMManager* me){
  * @param[out]  bytes       The length (number of bytes) of the value
  * @return      Whether or not the address/length were successfully found.
  */
-LOCAL ubyte2 getAddress(EEPROMManager* me, eepromValue value)
-{
-    ubyte2 address = 0;
+    LOCAL ubyte2 getAddress(EEPROMManager* me, eepromValue value)
+    {
+        ubyte2 address = 0;
     //!< Comments on the side are incorrect, fix later?
     // (value == EEPROM_val_doNotUse                               //!< ubyte4 0x0000
     //    || value == EEPROM_val_TPS0_calibMin                     //!< ubyte2 0x0004
@@ -507,37 +531,37 @@ LOCAL ubyte2 getAddress(EEPROMManager* me, eepromValue value)
     //    || value == EEPROM_val_regen_minimumSpeedKPH             //!< ubyte2 0x001E
     //    || value == EEPROM_val_regen_torqueAtZeroPedalDNm        //!< ubyte2 0x0020
     //    || value == EEPROM_val_regen_percentBPSForMaxRegen) ? success = TRUE : success;
-    if (EEPROMManager_initialized(me)){
-        if(value == EEPROM_val_doNotUse)
-            return 0x0000;
-        else if(value == EEPROM_val_TPS0_calibMin)
-            return 0x0004; 
-        else if(value == EEPROM_val_TPS0_calibMax)
-            return 0x0006; 
-        else if(value == EEPROM_val_TPS1_calibMin)
-            return 0x0008; 
-        else if(value == EEPROM_val_TPS1_calibMax)
-            return 0x000A; 
-        else if(value == EEPROM_val_MCM_torqueMaximumDNm)
-            return 0x000C; 
-        else if(value == EEPROM_val_regen_torqueLimitDNm)
-            return 0x000E; 
-        else if(value == EEPROM_val_regen_torqueAtZeroPedalDNm)
-            return 0x0010; 
-        else if(value == EEPROM_val_regen_percentAPPSForCoasting)
-            return 0x0014; 
-        else if(value == EEPROM_val_regen_percentBPSForMaxRegen)
-            return 0x0018; 
-        else if(value == EEPROM_val_regen_minimumSpeedKPH)
-            return 0x001C; 
-        else if(value == EEPROM_val_regen_SpeedRampStart)
-            return 0x001E; 
-        else if(value == EEPROM_val_regen_throttlePedal)
-            return 0x0020; 
-        return 0;
+        if (EEPROMManager_initialized(me)){
+            if(value == EEPROM_val_doNotUse)
+                return 0x0000;
+            else if(value == EEPROM_val_TPS0_calibMin)
+                return 0x0004; 
+            else if(value == EEPROM_val_TPS0_calibMax)
+                return 0x0006; 
+            else if(value == EEPROM_val_TPS1_calibMin)
+                return 0x0008; 
+            else if(value == EEPROM_val_TPS1_calibMax)
+                return 0x000A; 
+            else if(value == EEPROM_val_MCM_torqueMaximumDNm)
+                return 0x000C; 
+            else if(value == EEPROM_val_regen_torqueLimitDNm)
+                return 0x000E; 
+            else if(value == EEPROM_val_regen_torqueAtZeroPedalDNm)
+                return 0x0010; 
+            else if(value == EEPROM_val_regen_percentAPPSForCoasting)
+                return 0x0014; 
+            else if(value == EEPROM_val_regen_percentBPSForMaxRegen)
+                return 0x0018; 
+            else if(value == EEPROM_val_regen_minimumSpeedKPH)
+                return 0x001C; 
+            else if(value == EEPROM_val_regen_SpeedRampStart)
+                return 0x001E; 
+            else if(value == EEPROM_val_regen_throttlePedal)
+                return 0x0020; 
+            return 0;
+        }
+        return address;
     }
-    return address;
-}
 
 //Reads EEPROM and stores data in data_hardware.  Waits until read is complete.
 LOCAL void readInitialValues(EEPROMManager* me)  //->might be void since we aren't modifying anything
