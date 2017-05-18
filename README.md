@@ -29,6 +29,8 @@
 * Bottom of header file stores set/get prototype in comments of individual eepromValues  
 
 ## Casual.pm Tasks
+* __Rhinehart motorcontroller software update__ (harness and hardware of car)  
+* __Dash or DCU__  
 * Read/Write EEPROM testing (__me__)  
 * Wheel Speed Sensor Read/Calculate Frequency :white_check_mark:  
 * Sending text to dash for easier testing (__maybe__)  
