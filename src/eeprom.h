@@ -9,7 +9,7 @@
  *
  *      This works by keeping two copies of EEPROM in memory, "software" and "hardware"
  *      in the form of ubyte1 arrays.  VCU software interactions will directly
- *      access the "software" copy, called the cachue.  EEPROMManager keeps track
+ *      access the "software" copy, called the cache.  EEPROMManager keeps track
  *      of what values are actually in hardware (known after the initial read),
  *      and will sync() the changes when the hardware is available.
  *
