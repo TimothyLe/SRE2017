@@ -10,28 +10,27 @@
 
 ## My custom rendition of SRE code  
 **Goals this week**  
-* New:
-* eeprom_parseMessage
- - Finds the length of eepromValue
- - Distinguishes the size of the value
-* eepromLength_shift
- - Performs little endian shifts where necessary
-* set/get
- - rewritten
-* Commented out former prototypes
- - former parse function
- - former endian shift function
- - potential set/get functions using sprintf
-TODO:
- - Need to finish last of syntax errors then fix sync (writeEP->data_software; readEP->data_hardware; *data_software++ = *data_hardware++)
+* Get that code to compile and link
 
 **Completed**
 * Basic EEPROM outline (data structures, declarations, definitions, etc) :white_check_mark:  
 * DIO test phase 1 (*outcome not as expected*) :white_check_mark:  
 * Unit testing for EEPROM (*successfully wrote to EEPROM*) :white_check_mark:  
 * EEPROM Research :white_check_mark:    
+* EEPROM parse assigns eepromValues to hex values  
+* EEPROM set/get written out  
+* EEPROM_initialized checks if constructor is successful and returns boolean  
+* read_initialized returns the values of EEPROM  
+* EEPROM getStatus using IO_EEPROM API to return condition  
+* getAddress returns a paticular ubyte2 offset from an eepromValue as a paramter using parse function  
+* Reading the EEPROM stores values into data_hardware dynamic array  
+* Writing the EEPROM stores values into data_software dynamic array  
+* New length member in EEPROMManager object  
+* Bottom of header file stores set/get prototype in comments of individual eepromValues  
 
 ## Casual.pm Tasks
+* __Rhinehart motorcontroller software update__ (harness and hardware of car)  
+* __Dash or DCU__  
 * Read/Write EEPROM testing (__me__)  
 * Wheel Speed Sensor Read/Calculate Frequency :white_check_mark:  
 * Sending text to dash for easier testing (__maybe__)  
@@ -46,20 +45,6 @@ TODO:
 For more information on certain components of the code or more clarity on topics, consult my wiki for more insight on certain topics and potential frequently asked questions after finishing this readme:   
 https://github.com/TimothyLe/SRE2017/wiki
 
-### Making a push request
-Open up a Git Bash, cmder, or etc and type the following commands.  
-```
-git clone https://github.com/TimothyLe/SRE2017.git [Your local directory]  
-git add . [or any single files you like]  
-git commit -m "Your message"  
-git remote add origin https://github.com/TimothyLe/SRE2017.git  
-git remote -v  
-git pull origin master  
-git push origin master  
-log [optional]  
-```
-Shortly, the request should arrive here.   
-
 ## Links
 [EEPROM Addresses](https://app.box.com/s/nbz92djxusbby6u214ghj4r6kfeen3ia)
 
@@ -68,3 +53,5 @@ Shortly, the request should arrive here.
 [VCU Pinout](https://1drv.ms/x/s!Avhc248Pj7v5gt4A6qt_feUsrY_taA) *Incorrect*
 
 [Updated Pinout w/ Ranges](https://app.box.com/s/b72z2jhthd8sobolhyxe6k7jv8ms0adg)
+
+[Team Website](http://spartanracingelectric.com)
