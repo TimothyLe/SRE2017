@@ -403,50 +403,6 @@ bool EEPROMManager_get_ubyte1(EEPROMManager* me, eepromValue parameter, ubyte1* 
         return flag;
     }
 
-// //---------------------------------------------------------------
-// // EEPROM Value Accessors
-// //---------------------------------------------------------------
-// /**  @ingroup EEPROM Value Accessors
-// * @brief Gets the specific hardware EEPROM values
-// */
-// ubyte4 get_EEPROM_val_doNotUse(EEPROMManager* me, eepromValue parameter, ubyte4 value){
-//     char buff[32];
-//     sprintf(buff,"EEPROM_val_doNotUse: %i\n",value);
-//     return value;
-// }         //!< ubyte4 0x0000
-// ubyte2 get_EEPROM_val_TPS0_calibMin(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x0004
-// ubyte2 get_EEPROM_val_TPS0_calibMax(EEPROMManager* me, eepromValue parameter, ubyte2 value); //!< ubyte2 0x0006
-// ubyte2 get_EEPROM_val_TPS1_calibMin(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x0008
-// ubyte2 get_EEPROM_val_TPS1_calibMax(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x000A
-// sbyte2 get_EEPROM_val_MCM_torqueMaximumDNm(EEPROMManager* me, eepromValue parameter, sbyte2 value);  //!< sbyte2 0x000C
-// ubyte2 get_EEPROM_val_regen_torqueLimitDNm(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x000E
-// ubyte2 get_EEPROM_val_regen_torqueAtZeroPedalDNm(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x0010
-// float4 get_EEPROM_val_regen_percentAPPSForCoasting(EEPROMManager* me, eepromValue parameter, float4 value); //!< float4 0x0014
-// float4 get_EEPROM_val_regen_percentBPSForMaxRegen(EEPROMManager* me, eepromValue parameter, float4 value); //!< float4 0x0018
-// ubyte2 get_EEPROM_val_regen_minimumSpeedKPH(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x001C
-// ubyte2 get_EEPROM_val_regen_SpeedRampStart(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x001E
-// ubyte2 get_EEPROM_val_regen_throttlePedal(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x0020
-
-// //---------------------------------------------------------------
-// // EEPROM Value Mutators
-// //---------------------------------------------------------------
-// /**  @ingroup EEPROM Value Accessors
-// * @brief Sets the specific hardware EEPROM values
-// */
-// ubyte4 set_EEPROM_val_doNotUse(EEPROMManager* me, eepromValue parameter, ubyte4 value);         //!< ubyte4 0x0000
-// ubyte2 set_EEPROM_val_TPS0_calibMin(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x0004
-// ubyte2 set_EEPROM_val_TPS0_calibMax(EEPROMManager* me, eepromValue parameter, ubyte2 value); //!< ubyte2 0x0006
-// ubyte2 set_EEPROM_val_TPS1_calibMin(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x0008
-// ubyte2 set_EEPROM_val_TPS1_calibMax(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x000A
-// sbyte2 set_EEPROM_val_MCM_torqueMaximumDNm(EEPROMManager* me, eepromValue parameter, sbyte2 value);  //!< sbyte2 0x000C
-// ubyte2 set_EEPROM_val_regen_torqueLimitDNm(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x000E
-// ubyte2 set_EEPROM_val_regen_torqueAtZeroPedalDNm(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x0010
-// float4 set_EEPROM_val_regen_percentAPPSForCoasting(EEPROMManager* me, eepromValue parameter, float4 value); //!< float4 0x0014
-// float4 set_EEPROM_val_regen_percentBPSForMaxRegen(EEPROMManager* me, eepromValue parameter, float4 value); //!< float4 0x0018
-// ubyte2 set_EEPROM_val_regen_minimumSpeedKPH(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x001C
-// ubyte2 set_EEPROM_val_regen_SpeedRampStart(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x001E
-// ubyte2 set_EEPROM_val_regen_throttlePedal(EEPROMManager* me, eepromValue parameter, ubyte2 value);  //!< ubyte2 0x0020
-
 //---------------------------------------------------------------
 // Special Functions
 //---------------------------------------------------------------
@@ -516,22 +472,7 @@ eepromOperation EEPROMManager_getStatus(EEPROMManager* me){
     LOCAL ubyte2 getAddress(EEPROMManager* me, eepromValue value)
     {
         ubyte2 address = 0;
-    //!< Comments on the side are incorrect, fix later?
-    // (value == EEPROM_val_doNotUse                               //!< ubyte4 0x0000
-    //    || value == EEPROM_val_TPS0_calibMin                     //!< ubyte2 0x0004
-    //    || value == EEPROM_val_TPS0_calibMax                     //!< ubyte2 0x0006
-    //    || value == EEPROM_val_TPS1_calibMin                     //!< ubyte2 0x0008
-    //    || value == EEPROM_val_TPS1_calibMax                     //!< ubyte2 0x000A
-    //    || value == EEPROM_val_MCM_torqueMaximumDNm              //!< sbyte2 0x000C
-    //    || value == EEPROM_val_regen_throttlePedal               //!< ubyte2 0x000E
-    //    || value == EEPROM_val_regen_torqueLimitDNm              //!< ubyte2 0x0010
-    //    || value == EEPROM_val_regen_percentAPPSForCoasting      //!< float4 0x0014
-    //    || value == EEPROM_val_regen_torqueLimitDNm              //!< float4 0x0018
-    //    || value == EEPROM_val_regen_SpeedRampStart              //!< ubyte2 0x001C
-    //    || value == EEPROM_val_regen_minimumSpeedKPH             //!< ubyte2 0x001E
-    //    || value == EEPROM_val_regen_torqueAtZeroPedalDNm        //!< ubyte2 0x0020
-    //    || value == EEPROM_val_regen_percentBPSForMaxRegen) ? success = TRUE : success;
-        if (EEPROMManager_initialized(me)){
+           if (EEPROMManager_initialized(me)){
             if(value == EEPROM_val_doNotUse)
                 return 0x0000;
             else if(value == EEPROM_val_TPS0_calibMin)
@@ -574,20 +515,6 @@ LOCAL void readInitialValues(EEPROMManager* me)  //->might be void since we aren
     }
     
 }
-
-// //! Reads type of memory and classifies them in bytes (assignments)
-// LOCAL void eepromLength_Classifier(EEPROMManager* me, eepromValue parameter){ 
-//         EEPROM_parseMessage(me, parameter); //! Initializes a parse
-//         if(sizeof(me->data_software)==sizeof(ubyte1)){  //! ubyte1
-//             me->length = isByte1; 
-//         } else if(sizeof(me->data_software)==sizeof(ubyte2)){   //! ubyte2
-//             me->length = isByte2; 
-//         } else if(sizeof(me->data_software)==sizeof(ubyte4)){   //! ubyte4
-//             me->length = isByte4; 
-//         } else{ //! Larger than ubyte4 or some unknown size ~ set to ubyte8 state
-//             me->length = isByte8;   //! ubyte8 or unknown size
-//         }
-// }
 
 //---------------------------------------------------------------
 // Helper functions (private)
@@ -687,95 +614,6 @@ void EEPROM_parseMessage(EEPROMManager* me, eepromValue parameter){
             me->length = isByte2;
             break;
         }
-
-    //!< Previous rendition 
-    // switch(offset){
-    //     case 0x0000:
-    //         me->type = EEPROM_val_doNotUse; //!< ubyte4
-    //         me->length <= isByte4 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x0004:
-    //         me->type = EEPROM_val_TPS0_calibMin; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x0006:
-    //         me->type = EEPROM_val_TPS0_calibMax; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x0008:
-    //         me->type = EEPROM_val_TPS1_calibMin; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x000A:
-    //         me->type = EEPROM_val_TPS1_calibMax; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x000C:
-    //         me->type = EEPROM_val_MCM_torqueMaximumDNm; //!< sbyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x000E:
-    //         me->type = EEPROM_val_regen_torqueLimitDNm; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x0010:
-    //         me->type = EEPROM_val_regen_torqueAtZeroPedalDNm; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x0014:
-    //         me->type = EEPROM_val_regen_percentAPPSForCoasting; //!< float4
-    //         me->length <= isByte4 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x0018:
-    //         me->type = EEPROM_val_regen_percentBPSForMaxRegen; //!< float4
-    //         me->length <= isByte4 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x001C:
-    //         me->type = EEPROM_val_regen_minimumSpeedKPH; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x001E:
-    //         me->type = EEPROM_val_regen_SpeedRampStart; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    //     case 0x0020:
-    //         me->type = EEPROM_val_regen_throttlePedal; //!< ubyte2
-    //         me->length <= isByte2 ? me->status=EEPROM_op_idle : me->status=EEPROM_op_fault;
-    //         break;
-    // }
     }
 
-// //! Helper Big Endian shifting function
-// void EEPROM_shifter(EEPROMManager* me, eepromLength* shift, ubyte1 value){
-//     /*!< Use switch cases to sequentially shift the data size */
-//     ubyte2 sizeEEPROM = 0; /*!< Keeps track of the data size */
-//     switch(me->length){
-//         case isByte8:                           //! Current state
-//         if(sizeof(value)>sizeof(ubyte8)){       //! Checks if data is larger than size 8
-//             sizeOf(value) = value >> 4;         //! Assigns shift as new size
-//             sizeEEPROM = sizeOf(value);         //! Variable to store the size of the data
-//             shift = shift->isByte4;             //! Switches to the next case
-//         } else exit(1);                       //! Exits the cases if the size is fine
-//         break;
-//         case isByte4:
-//         if(sizeof(value)>sizeof(ubyte4)){
-//             sizeOf(value) = value >> 2;
-//             sizeEEPROM = sizeOf(value);
-//             shift = shift->isByte2;
-//         } else exit(1); 
-//         break;
-//         case isByte2:
-//         if(sizeof(value)>sizeof(ubyte2)){
-//             sizeOf(value) = value >> 1;
-//             sizeEEPROM = sizeOf(value);
-//             shift = shift->isByte1;
-//         } else exit(1); 
-//         break;
-//         case isByte1:
-//         sizeEEPROM = sizeOf(value);
-//         break;
-//         default:
-//         EEPROMManager_getStatus(me->status);
-//         break;
-//     }
-// }
+
