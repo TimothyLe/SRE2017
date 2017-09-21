@@ -6,7 +6,7 @@ install:
 
 language: c
 
-script: make
+script: build.sh
 
 compiler:
   - clang
