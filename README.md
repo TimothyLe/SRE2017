@@ -2,6 +2,13 @@
 
 [![Build Status](https://travis-ci.org/TimothyLe/SRE2017.svg?branch=master)](https://travis-ci.org/TimothyLe/SRE2017)
 
+## Meeting
+* Covered TTC, Make.bat, PCAN-view  
+* Homework: Read resource list & API Manual   
+  * Look at github repos   
+  * Give out software kits   
+* Workshop idea: Create a program that will send/receive serial messages from an Arduino through make compiler and custom flashing software (Realterm, Tftpd32, etc)   
+
 ## Things of Interest
 **Ignore the master and documents directories, they were added by Git Bash**  
 1. EEPROM, can manager, and the car's main revisions located in *tim's stuff*  
